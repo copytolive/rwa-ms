@@ -87,7 +87,7 @@ function wire(){
 function runRuntimeAudit(){
   const checks=[];const add=(name,ok,detail)=>checks.push({name,ok:Boolean(ok),detail});
   const groups=[["navigation","[data-view]"],["market sort","[data-market-sort]"],["market/watchlist","[data-rail-mode]"],["timeframes","[data-interval]"],["buy/sell","[data-side]"],["order types","[data-order-type]"],["price step","[data-price-step]"],["quick percent","[data-pct]"],["lower tabs","[data-ltab]"],["mobile buy/sell","[data-mobile-side]"],["mobile order side","[data-mobile-order-side]"],["mobile order type","[data-mobile-order-type]"],["mobile percent","[data-mobile-pct]"],["engine cards","[data-engine]"]];
-  groups.forEach(([name,sel])=>{const els=$(sel);add(name,els.length>0&&els.every(x=>typeof x.onclick==="function"),els.length+" controls")});
+  groups.forEach(([name,sel])=>{const els=$$(sel);add(name,els.length>0&&els.every(x=>typeof x.onclick==="function"),els.length+" controls")});
   ["#placeOrder","#walletBtn","#accountBtn","#setAccount","#mobileSetAccount","#notifyBtn","#mobilePreviewOrder","#mobileMarketPicker","#openBusinessesFromSheet","#goActivityFromPreview"].forEach(sel=>{const el=$(sel);add(sel,el&&typeof el.onclick==="function",el?"handler "+typeof el.onclick:"missing")});
   [["#marketSearch","oninput"],["#globalSearch","oninput"],["#orderPrice","oninput"],["#orderSize","oninput"],["#sizeRange","oninput"],["#mobileOrderPrice","oninput"],["#mobileOrderSize","oninput"],["#mobileSizeRange","oninput"],["#mobileMarketSearch","oninput"]].forEach(([sel,prop])=>{const el=$(sel);add(sel,el&&typeof el[prop]==="function",el?prop+" "+typeof el[prop]:"missing")});
   add("TradingView library",Boolean(window.LightweightCharts),"LightweightCharts global");
