@@ -86,3 +86,9 @@ test("runtime button audit checks every control in each selector group",()=>{
   assert.equal(js.includes(queryAllToken),true);
   assert.equal(js.includes(queryOneToken),false);
 });
+
+
+test("multi-element click loops use querySelectorAll",()=>{
+  const bad=/(?<!\$)\$\([^;\n]*?\)\.forEach/g;
+  assert.deepEqual(js.match(bad)||[],[]);
+});
