@@ -78,3 +78,11 @@ test("responsive typography has explicit desktop and mobile readability floors",
   assert.match(css,/\.mobile-total strong\{font-size:24px\}/);
   assert.match(css,/grid-template-rows:28px auto minmax\(150px,1fr\) auto auto/);
 });
+
+
+test("runtime button audit checks every control in each selector group",()=>{
+  const queryAllToken="const els="+String.fromCharCode(36)+String.fromCharCode(36)+"(sel)";
+  const queryOneToken="const els="+String.fromCharCode(36)+"(sel)";
+  assert.equal(js.includes(queryAllToken),true);
+  assert.equal(js.includes(queryOneToken),false);
+});
