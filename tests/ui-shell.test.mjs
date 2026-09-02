@@ -92,3 +92,16 @@ test("multi-element click loops use querySelectorAll",()=>{
   const bad=/(?<!\$)\$\([^;\n]*?\)\.forEach/g;
   assert.deepEqual(js.match(bad)||[],[]);
 });
+
+
+test("production hydrates real deploy snapshot before live network refresh",()=>{
+  assert.match(js,/async function hydrateDeploySnapshot\(\)/);
+  assert.match(js,/await hydrateDeploySnapshot\(\);loadMarkets\(\)\.catch/);
+  assert.match(js,/data\/hyperliquid-meta\.json/);
+  assert.match(js,/data\/btc-candles-1h\.json/);
+});
+
+test("mobile engine controls do not inherit native gray button styling",()=>{
+  assert.match(css,/\.mobile-engine-icon\{appearance:none;-webkit-appearance:none;border:0;background:transparent;padding:0\}/);
+  assert.match(css,/--muted:#879b96/);
+});

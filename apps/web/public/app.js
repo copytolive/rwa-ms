@@ -32,6 +32,41 @@ function renderHighLow(){const highs=state.candles.map(c=>Number(c.h)).filter(Nu
 function connectWs(coin){try{if(state.ws)state.ws.close();const ws=new WebSocket(WS);state.ws=ws;ws.onopen=()=>ws.send(JSON.stringify({method:"subscribe",subscription:{type:"trades",coin}}));ws.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.channel==="trades"&&Array.isArray(m.data)){m.data.forEach(t=>state.trades.unshift({side:t.side,px:Number(t.px),sz:Number(t.sz),time:Number(t.time)}));state.trades=state.trades.slice(0,100);renderTrades()}}catch{}}}catch{}}
 async function loadDetail(){const m=current();if(!m)return;const step={ "1m":60e3,"5m":300e3,"15m":900e3,"1h":3600e3,"4h":14400e3,"1d":86400e3}[state.interval]||3600e3,end=Date.now(),start=end-step*180;try{const [book,candles,funding]=await Promise.all([postInfo({type:"l2Book",coin:m.code,nSigFigs:5}),postInfo({type:"candleSnapshot",req:{coin:m.code,interval:state.interval,startTime:start,endTime:end}}),postInfo({type:"fundingHistory",coin:m.code,startTime:end-24*3600e3,endTime:end})]);state.book=book;state.candles=Array.isArray(candles)?candles:[];state.fundingRows=Array.isArray(funding)?funding:[];renderOrderBook();renderFunding();renderHighLow();renderCharts();connectWs(m.code)}catch(e){console.warn(e);if(m.code==="BTC"&&state.interval==="1h"){try{const [book,candles,funding]=await Promise.all([staticJson("./data/btc-book.json"),staticJson("./data/btc-candles-1h.json"),staticJson("./data/btc-funding.json")]);state.book=book;state.candles=Array.isArray(candles)?candles:[];state.fundingRows=Array.isArray(funding)?funding:[];renderOrderBook();renderFunding();renderHighLow();renderCharts();return}catch(snapshotError){console.warn(snapshotError)}}state.book=null;state.candles=[];state.fundingRows=[];renderOrderBook();renderFunding();renderCharts()}}
 async function selectMarket(code){if(!state.markets.some(m=>m.code===code))return;state.selected=code;state.trades=[];renderMarkets();renderHeader();renderTrades();await loadDetail()}
+async function hydrateDeploySnapshot(){
+  try{
+    const [payload,book,candles,funding]=await Promise.all([
+      staticJson("./data/hyperliquid-meta.json"),
+      staticJson("./data/btc-book.json"),
+      staticJson("./data/btc-candles-1h.json"),
+      staticJson("./data/btc-funding.json")
+    ]);
+    const markets=parseMarkets(payload);
+    if(!markets.length)return false;
+    state.markets=markets;
+    if(!state.markets.some(m=>m.code===state.selected)){
+      state.selected=state.markets.find(m=>m.code==="BTC")?.code||sortMarkets(state.markets)[0].code;
+    }
+    setStatus("snapshot","Hyperliquid Snapshot");
+    renderTicker();
+    renderMarkets();
+    renderHeader();
+    renderDiscover();
+    if(state.selected==="BTC"&&state.interval==="1h"){
+      state.book=book;
+      state.candles=Array.isArray(candles)?candles:[];
+      state.fundingRows=Array.isArray(funding)?funding:[];
+      renderOrderBook();
+      renderFunding();
+      renderHighLow();
+      renderCharts();
+    }
+    return true;
+  }catch(error){
+    console.warn("Deploy snapshot unavailable",error);
+    return false;
+  }
+}
+
 async function loadMarkets(){let payload,mode="live";try{payload=await postInfo({type:"metaAndAssetCtxs"})}catch(liveError){console.warn("Live Hyperliquid unavailable; using real deploy snapshot",liveError);payload=await staticJson("./data/hyperliquid-meta.json");mode="snapshot"}try{state.markets=parseMarkets(payload);if(!state.markets.length)throw new Error("No markets");if(!state.markets.some(m=>m.code===state.selected))state.selected=state.markets.find(m=>m.code==="BTC")?.code||sortMarkets(state.markets)[0].code;setStatus(mode,mode==="live"?"Hyperliquid Live":"Hyperliquid Snapshot");renderTicker();renderMarkets();renderHeader();renderDiscover();await loadDetail()}catch(e){console.error(e);setStatus("offline","Market Offline");$("#marketRows").innerHTML='<div class="empty">Real Hyperliquid market data is unavailable. No synthetic fallback is shown.</div>'}}
 function renderDiscover(){const top=sortMarkets(state.markets).slice(0,8);$("#discoverGrid").innerHTML=[...top.map(m=>'<article class="discover-card" data-open-market="'+m.code+'"><h3>'+m.code+' Perpetual</h3><p>Hyperliquid · $'+compact(m.volume)+' 24h volume</p><b class="'+(m.change>=0?"positive":"negative")+'" style="display:block;margin-top:10px">'+pct(m.change)+'</b></article>'),...engines.slice(0,4).map(e=>'<article class="discover-card"><h3>'+e.name+'</h3><p>'+e.sub+'</p><b style="display:block;margin-top:10px;color:var(--green)">REPO SOURCE</b></article>')].join("");$$("[data-open-market]").forEach(x=>x.onclick=()=>{selectMarket(x.dataset.openMarket);setView("market")})}
 
@@ -96,6 +131,6 @@ function runRuntimeAudit(requireMarket=false){
   const failed=checks.filter(x=>!x.ok);document.body.dataset.auditFailed=String(failed.length);document.body.dataset.auditTotal=String(checks.length);window.__RWA_AUDIT__={total:checks.length,passed:checks.length-failed.length,failed:failed.length,checks};let pre=$("#runtimeAudit");if(!pre){pre=document.createElement("pre");pre.id="runtimeAudit";pre.hidden=true;document.body.appendChild(pre)}pre.textContent=JSON.stringify(window.__RWA_AUDIT__);return window.__RWA_AUDIT__;
 }
 
-async function boot(){renderEngines();wire();if(window.LightweightCharts)initCharts();else setStatus("offline","TradingView missing");renderAccount();const auditMode=new URLSearchParams(location.search).get("audit")==="1";if(auditMode)runRuntimeAudit(false);await loadMarkets();if(state.account)await loadAccount();setInterval(()=>loadMarkets(),15000);if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{})}
+async function boot(){renderEngines();wire();if(window.LightweightCharts)initCharts();else setStatus("offline","TradingView missing");renderAccount();const auditMode=new URLSearchParams(location.search).get("audit")==="1";if(auditMode)runRuntimeAudit(false);await hydrateDeploySnapshot();loadMarkets().catch(error=>console.warn("Live refresh failed",error));if(state.account)loadAccount().catch(error=>console.warn("Account refresh failed",error));setInterval(()=>loadMarkets(),15000);if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{})}
 boot();
 })();
