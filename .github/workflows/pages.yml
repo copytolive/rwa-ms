@@ -51,6 +51,27 @@ jobs:
           test -s apps/web/public/data/hyperliquid-meta.json
           test -s apps/web/public/data/btc-candles-1h.json
           test -s apps/web/public/data/btc-book.json
+      - name: Render desktop and mobile visual verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p visual-check
+          python3 -m http.server 4173 --directory apps/web/public >/tmp/rwa-ms-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          sleep 2
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=10000 --screenshot=visual-check/desktop-1920x1080.png http://127.0.0.1:4173/#market
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=390,844 --virtual-time-budget=10000 --screenshot=visual-check/mobile-390x844.png http://127.0.0.1:4173/#market
+          test -s visual-check/desktop-1920x1080.png
+          test -s visual-check/mobile-390x844.png
+      - name: Upload visual verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: rwa-ms-visual-check
+          path: visual-check
+          retention-days: 2
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
