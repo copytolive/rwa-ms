@@ -1,0 +1,6 @@
+* @copytolive
+/docs/ @copytolive
+/.github/ @copytolive
+/packages/contracts/ @copytolive
+/packages/source-policy/ @copytolive
+/services/control-plane/ @copytolive
