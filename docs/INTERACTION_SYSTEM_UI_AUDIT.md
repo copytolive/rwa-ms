@@ -61,3 +61,8 @@ Changes after audit:
 ## Automated audit
 
 The Pages pipeline opens the artifact in Chromium with `?audit=1`, checks registered click/input handler groups, TradingView presence and real market rows, and fails deployment if `data-audit-failed` is non-zero.
+
+
+## Deterministic deployment audit
+
+The deployment gate uses `scripts/audit-ui.mjs` to classify every static button, verify its handler contract, verify dynamic market/engine control handlers, enforce Hyperliquid/TradingView source paths, reject known synthetic market labels, and enforce desktop/mobile typography/layout contracts. Chromium still renders desktop/mobile screenshots on every deployment; the DOM dump is retained as diagnostic evidence but does not block on network timing.
