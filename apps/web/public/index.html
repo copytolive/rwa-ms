@@ -23,9 +23,9 @@
     </nav>
     <div class="top-actions">
       <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Search live Hyperliquid markets…"></label>
-      <button id="walletBtn" class="status-btn"><span id="statusDot"></span><b id="statusText">Connecting</b></button>
-      <button class="icon-btn" id="notifyBtn">♧</button>
-      <button class="avatar-btn" id="accountBtn">R</button>
+      <button id="walletBtn" class="status-btn" aria-label="Hyperliquid connection and public account" title="Connection / public account"><span id="statusDot"></span><b id="statusText">Connecting</b></button>
+      <button class="icon-btn" id="notifyBtn" aria-label="Notifications and activity" title="Notifications / activity">♧</button>
+      <button class="avatar-btn" id="accountBtn" aria-label="Public Hyperliquid account" title="Public account">R</button>
     </div>
   </header>
 
@@ -118,7 +118,7 @@
           <section class="order-entry panel">
             <div class="buy-sell"><button class="active buy" data-side="buy">Buy</button><button class="sell" data-side="sell">Sell</button></div>
             <div class="order-types"><button class="active" data-order-type="limit">Limit</button><button data-order-type="market">Market</button><button data-order-type="stop">Stop</button></div>
-            <label><span>Price (USD)</span><div class="field"><input id="orderPrice" inputmode="decimal" placeholder="0.00"><div><button type="button" data-price-step="-1">−</button><button type="button" data-price-step="1">＋</button></div></div></label>
+            <label><span id="orderPriceLabel">Price (USD)</span><div class="field"><input id="orderPrice" inputmode="decimal" placeholder="0.00"><div><button type="button" data-price-step="-1">−</button><button type="button" data-price-step="1">＋</button></div></div></label>
             <label><span>Size</span><div class="field"><input id="orderSize" inputmode="decimal" placeholder="0.00"></div></label>
             <input id="sizeRange" type="range" min="0" max="100" value="25">
             <div class="quick-pct"><button data-pct="10">10%</button><button class="active" data-pct="25">25%</button><button data-pct="50">50%</button><button data-pct="75">75%</button><button data-pct="100">100%</button></div>
@@ -167,6 +167,16 @@
     <section class="view" data-view-panel="portfolio"><div class="page"><div class="page-title"><span>PORTFOLIO</span><h1>Real Hyperliquid public-account state.</h1></div><div id="portfolioSummary" class="portfolio-summary"></div><div id="portfolioList" class="portfolio-list"></div></div></section>
     <section class="view" data-view-panel="activity"><div class="page"><div class="page-title"><span>ACTIVITY</span><h1>Real fills plus market stream.</h1></div><div id="activityList" class="activity-list"></div></div></section>
   </main>
+
+  <div id="appModal" class="modal" hidden>
+    <button class="modal-backdrop" data-modal-close aria-label="Close dialog"></button>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><h2 id="modalTitle">RWA.MS</h2><button id="modalClose" class="modal-close" aria-label="Close dialog">×</button></div>
+      <div id="modalBody" class="modal-body"></div>
+      <div id="modalActions" class="modal-actions"></div>
+    </section>
+  </div>
+  <div id="toast" class="toast" hidden></div>
 
   <nav class="mobile-nav">
     <button data-view="discover"><span>⌕</span><b>Discover</b></button>

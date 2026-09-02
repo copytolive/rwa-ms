@@ -57,3 +57,36 @@ test("deploy creates a real Hyperliquid snapshot fallback and busts old PWA cach
   assert.match(sw,/rwa-ms-real-market-v3/);
   assert.doesNotMatch(sw,/rwa-ms-option1-v1/);
 });
+
+test("every visible static action family is wired or explicitly modal-gated",()=>{
+  assert.match(js,/#notifyBtn/);
+  assert.match(js,/sizeRange.*oninput/);
+  assert.match(js,/setOrderPercent/);
+  assert.match(js,/renderOrderType/);
+  assert.match(js,/showOrderPreview/);
+  assert.match(js,/openMobileOrder/);
+  assert.match(js,/configureAccount/);
+  assert.match(js,/data-engine-id/);
+  assert.doesNotMatch(js,/\balert\(/);
+  assert.doesNotMatch(js,/\bprompt\(/);
+});
+
+test("interactive repo engines expose honest runtime state",()=>{
+  assert.match(js,/NOT CONNECTED ON GITHUB PAGES/);
+  assert.match(js,/REPO READY/);
+  assert.match(html,/id="appModal"/);
+});
+
+test("desktop and mobile typography stays readable in dense terminal",()=>{
+  assert.match(css,/\.market-name small\{[^}]*font-size:8px/);
+  assert.match(css,/\.ob-row\{[^}]*font:9px/);
+  assert.match(css,/\.engine-state\{font-size:8px/);
+  assert.match(css,/\.mobile-nav button b\{font-size:8px/);
+  assert.match(css,/--muted:#879a96/);
+});
+
+test("icon controls have accessible labels",()=>{
+  assert.match(html,/id="notifyBtn"[^>]*aria-label=/);
+  assert.match(html,/id="accountBtn"[^>]*aria-label=/);
+  assert.match(html,/id="walletBtn"[^>]*aria-label=/);
+});
