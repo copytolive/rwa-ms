@@ -24,7 +24,7 @@
     <div class="top-actions">
       <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Search live Hyperliquid markets…"></label>
       <button id="walletBtn" class="status-btn"><span id="statusDot"></span><b id="statusText">Connecting</b></button>
-      <button class="icon-btn" id="notifyBtn">♧</button>
+      <button class="icon-btn" id="notifyBtn" aria-label="Open activity notifications" title="Activity">♧</button>
       <button class="avatar-btn" id="accountBtn">R</button>
     </div>
   </header>
@@ -118,9 +118,9 @@
           <section class="order-entry panel">
             <div class="buy-sell"><button class="active buy" data-side="buy">Buy</button><button class="sell" data-side="sell">Sell</button></div>
             <div class="order-types"><button class="active" data-order-type="limit">Limit</button><button data-order-type="market">Market</button><button data-order-type="stop">Stop</button></div>
-            <label><span>Price (USD)</span><div class="field"><input id="orderPrice" inputmode="decimal" placeholder="0.00"><div><button type="button" data-price-step="-1">−</button><button type="button" data-price-step="1">＋</button></div></div></label>
+            <label><span id="priceLabel">Price (USD)</span><div class="field"><input id="orderPrice" inputmode="decimal" placeholder="0.00"><div><button type="button" data-price-step="-1">−</button><button type="button" data-price-step="1">＋</button></div></div></label>
             <label><span>Size</span><div class="field"><input id="orderSize" inputmode="decimal" placeholder="0.00"></div></label>
-            <input id="sizeRange" type="range" min="0" max="100" value="25">
+            <input id="sizeRange" type="range" min="0" max="100" value="25" aria-label="Order size percentage">
             <div class="quick-pct"><button data-pct="10">10%</button><button class="active" data-pct="25">25%</button><button data-pct="50">50%</button><button data-pct="75">75%</button><button data-pct="100">100%</button></div>
             <div class="order-meta"><div><span>Order Value</span><b id="orderValue">—</b></div><div><span>Time in Force</span><b>GTC</b></div><div><span>Market</span><b id="orderMarket">BTC</b></div></div>
             <button class="place-order" id="placeOrder">Preview Buy Order</button>
@@ -155,7 +155,7 @@
         </article>
         <article class="mobile-market panel">
           <div class="mobile-market-head">
-            <div><span id="mobileMarketCode">BTC</span><b id="mobileMarketName">BTC Perpetual</b><small id="mobileMarketPrice">—</small></div>
+            <div><span id="mobileMarketCode">BTC</span><b id="mobileMarketName">BTC Perpetual</b><small id="mobileMarketPrice">—</small><button id="mobileMarketPicker" class="mobile-change-market">Change market</button></div>
             <div id="mobileChart" class="mobile-tv-chart"></div>
           </div>
           <div class="mobile-market-actions"><button class="sell" data-mobile-side="sell">Sell<br><b id="mobileSellPrice">—</b></button><button class="buy" data-mobile-side="buy">Buy<br><b id="mobileBuyPrice">—</b></button></div>
@@ -167,6 +167,50 @@
     <section class="view" data-view-panel="portfolio"><div class="page"><div class="page-title"><span>PORTFOLIO</span><h1>Real Hyperliquid public-account state.</h1></div><div id="portfolioSummary" class="portfolio-summary"></div><div id="portfolioList" class="portfolio-list"></div></div></section>
     <section class="view" data-view-panel="activity"><div class="page"><div class="page-title"><span>ACTIVITY</span><h1>Real fills plus market stream.</h1></div><div id="activityList" class="activity-list"></div></div></section>
   </main>
+
+
+  <div id="systemSheet" class="sheet" hidden>
+    <button class="sheet-backdrop" data-close-sheet aria-label="Close system details"></button>
+    <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="systemSheetTitle">
+      <div class="sheet-head"><div><span class="sheet-kicker">REPO SYSTEM</span><h2 id="systemSheetTitle">System</h2></div><button class="sheet-close" data-close-sheet aria-label="Close">×</button></div>
+      <div id="systemSheetBody" class="system-sheet-body"></div>
+      <div class="sheet-actions"><button class="secondary-action" data-close-sheet>Close</button><button class="primary-action" id="openBusinessesFromSheet">Open Businesses</button></div>
+    </section>
+  </div>
+
+  <div id="mobileOrderSheet" class="sheet" hidden>
+    <button class="sheet-backdrop" data-close-sheet aria-label="Close order entry"></button>
+    <section class="sheet-panel order-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="mobileOrderTitle">
+      <div class="sheet-head"><div><span class="sheet-kicker">HYPERLIQUID ORDER</span><h2 id="mobileOrderTitle">Buy BTC</h2></div><button class="sheet-close" data-close-sheet aria-label="Close">×</button></div>
+      <div class="sheet-segment" id="mobileSideTabs"><button class="active buy" data-mobile-order-side="buy">Buy</button><button class="sell" data-mobile-order-side="sell">Sell</button></div>
+      <div class="sheet-segment small" id="mobileOrderTypes"><button class="active" data-mobile-order-type="limit">Limit</button><button data-mobile-order-type="market">Market</button><button data-mobile-order-type="stop">Stop</button></div>
+      <label class="sheet-field"><span id="mobileOrderPriceLabel">Price (USD)</span><input id="mobileOrderPrice" inputmode="decimal" placeholder="0.00"></label>
+      <label class="sheet-field"><span>Size</span><input id="mobileOrderSize" inputmode="decimal" placeholder="0.00"></label>
+      <input id="mobileSizeRange" class="sheet-range" type="range" min="0" max="100" value="25" aria-label="Mobile order size percentage">
+      <div class="sheet-quick" id="mobileQuickPct"><button data-mobile-pct="10">10%</button><button class="active" data-mobile-pct="25">25%</button><button data-mobile-pct="50">50%</button><button data-mobile-pct="75">75%</button><button data-mobile-pct="100">100%</button></div>
+      <div class="sheet-summary"><div><span>Market</span><b id="mobileOrderMarket">BTC</b></div><div><span>Order Value</span><b id="mobileOrderValue">—</b></div><div><span>Execution</span><b>Preview / fail-closed</b></div></div>
+      <button id="mobilePreviewOrder" class="sheet-order-button buy">Preview Buy Order</button>
+    </section>
+  </div>
+
+  <div id="orderPreviewSheet" class="sheet" hidden>
+    <button class="sheet-backdrop" data-close-sheet aria-label="Close order preview"></button>
+    <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="orderPreviewTitle">
+      <div class="sheet-head"><div><span class="sheet-kicker">ORDER PREVIEW</span><h2 id="orderPreviewTitle">Review order</h2></div><button class="sheet-close" data-close-sheet aria-label="Close">×</button></div>
+      <pre id="orderPreviewBody" class="order-preview"></pre>
+      <div class="execution-gate"><b>WRITE GATE LOCKED</b><span>Real Hyperliquid submission requires the secure signer/execution adapter. This browser never asks for a private key.</span></div>
+      <div class="sheet-actions"><button class="secondary-action" data-close-sheet>Close</button><button class="primary-action" id="goActivityFromPreview">Open Activity</button></div>
+    </section>
+  </div>
+
+  <div id="marketPickerSheet" class="sheet" hidden>
+    <button class="sheet-backdrop" data-close-sheet aria-label="Close market picker"></button>
+    <section class="sheet-panel market-picker-panel" role="dialog" aria-modal="true" aria-labelledby="marketPickerTitle">
+      <div class="sheet-head"><div><span class="sheet-kicker">LIVE HYPERLIQUID</span><h2 id="marketPickerTitle">Choose market</h2></div><button class="sheet-close" data-close-sheet aria-label="Close">×</button></div>
+      <label class="sheet-search"><span>⌕</span><input id="mobileMarketSearch" placeholder="Search markets…"></label>
+      <div id="mobileMarketList" class="mobile-market-list"></div>
+    </section>
+  </div>
 
   <nav class="mobile-nav">
     <button data-view="discover"><span>⌕</span><b>Discover</b></button>
