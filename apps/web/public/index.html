@@ -3,81 +3,126 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="RWA.MS — business-first trust and transaction network">
+  <meta name="description" content="RWA.MS — verified business network powered only by systems already present in RWA_MS_REPOS.">
   <title>RWA.MS</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <header class="nav">
-    <a class="brand" href="./">RWA.MS</a>
-    <span class="status">FOUNDATION BUILD</span>
-  </header>
+  <aside class="sidebar">
+    <a class="brand" href="#home">RWA.MS</a>
+    <nav>
+      <button class="nav-btn active" data-target="home">Home</button>
+      <button class="nav-btn" data-target="business">Create Business</button>
+      <button class="nav-btn" data-target="systems">Systems</button>
+      <button class="nav-btn" data-target="launch">Launch Gate</button>
+    </nav>
+    <div class="side-foot">
+      <span class="dot"></span>
+      <span>Public shell online</span>
+    </div>
+  </aside>
 
-  <main>
-    <section class="hero">
-      <p class="eyebrow">BUSINESS-FIRST TRUST + TRANSACTION NETWORK</p>
-      <h1>One identity. One trust layer. One action plane.</h1>
-      <p class="lead">
-        RWA.MS connects verified businesses, users and economic engines through a stable
-        control plane. Mature upstream services remain isolated and replaceable.
-      </p>
-      <div class="actions">
-        <a href="#architecture">Architecture</a>
-        <a href="#engines">Economic engines</a>
+  <main class="app">
+    <div id="loadError" class="alert" hidden></div>
+
+    <section class="view" data-view="home">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">BUSINESS-FIRST TRUST + TRANSACTION NETWORK</p>
+          <h1>One shell over the systems you already have.</h1>
+          <p class="lead">RWA.MS uses the repositories already present in <code>RWA_MS_REPOS</code>. No new economic engine is introduced in this launch profile.</p>
+        </div>
+        <div class="status-pill">LAUNCH FOUNDATION</div>
+      </header>
+
+      <div class="metrics">
+        <article><strong id="sourceCount">—</strong><span>existing systems mapped</span></article>
+        <article><strong id="readyCount">—</strong><span>ready for adapter work</span></article>
+        <article><strong id="heldCount">—</strong><span>held behind review gate</span></article>
+      </div>
+
+      <section class="panel">
+        <p class="eyebrow">FIRST LIVE VERTICAL</p>
+        <h2>Create Business → policy → provision → pay / sell → receipt</h2>
+        <div class="flow">
+          <span>Identity</span><i>→</i><span>Policy</span><i>→</i><span>Commerce</span><i>→</i><span>Payment</span><i>→</i><span>Ledger</span><i>→</i><span>Audit</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <p class="eyebrow">ACTIVE CORE SOURCES</p>
+        <div id="coreGrid" class="system-grid"></div>
+      </section>
+    </section>
+
+    <section class="view" data-view="business" hidden>
+      <header class="page-head compact">
+        <div>
+          <p class="eyebrow">BUSINESS PROVISIONING MANIFEST</p>
+          <h1>Create from existing engines.</h1>
+          <p class="lead">This step generates a local draft manifest only. It does not pretend that a backend tenant was created.</p>
+        </div>
+      </header>
+
+      <div class="two-col">
+        <form id="manifestForm" class="panel form-card">
+          <label>Business name<input name="displayName" required placeholder="Example business"></label>
+          <label>Jurisdiction<input name="jurisdiction" placeholder="e.g. ID"></label>
+          <label>Economic engine
+            <select name="template">
+              <option value="commerce">Commerce — Medusa</option>
+              <option value="creator">Creator — Ghost</option>
+              <option value="billing">Billing — Kill Bill</option>
+              <option value="api">API — APISIX</option>
+              <option value="meter">Metering — OpenMeter</option>
+            </select>
+          </label>
+          <button class="primary" type="submit">Generate launch manifest</button>
+        </form>
+        <div class="panel">
+          <p class="eyebrow">OUTPUT</p>
+          <pre id="manifestOutput">No manifest generated yet.</pre>
+        </div>
       </div>
     </section>
 
-    <section id="architecture" class="grid">
-      <article><h2>Identity</h2><p>RWA ID, Business ID, roles, sessions and verification state.</p></article>
-      <article><h2>Trust</h2><p>Evidence-backed claims, transaction history, disputes and reputation.</p></article>
-      <article><h2>Policy</h2><p>Capability decisions by user, business, action, jurisdiction and provider.</p></article>
-      <article><h2>Execution</h2><p>Payments, fees, provisioning, adapters, events and auditable receipts.</p></article>
+    <section class="view" data-view="systems" hidden>
+      <header class="page-head compact">
+        <div>
+          <p class="eyebrow">EXISTING REPOSITORY SYSTEMS</p>
+          <h1>Launch systems and held systems.</h1>
+          <p class="lead">Every card points back to a source already inside <span id="manifestSource">RWA_MS_REPOS</span>.</p>
+        </div>
+      </header>
+      <section class="panel">
+        <p class="eyebrow">LAUNCH ENGINES</p>
+        <div id="engineGrid" class="system-grid"></div>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">HELD — DO NOT ACTIVATE YET</p>
+        <div id="heldGrid" class="system-grid"></div>
+      </section>
     </section>
 
-    <section id="engines" class="section">
-      <p class="eyebrow">REPO-FIRST ECONOMIC ENGINES</p>
-      <h2>Integrate mature engines. Do not fork their cores.</h2>
-      <div class="engine-grid">
-        <div><strong>Commerce</strong><span>Medusa · SELL / CHECKOUT</span></div>
-        <div><strong>Booking</strong><span>Cal.diy · BOOK / PAY</span></div>
-        <div><strong>Ticketing</strong><span>Pretix · TICKET / ACCESS</span></div>
-        <div><strong>Creator</strong><span>Ghost · PUBLISH / SUBSCRIBE</span></div>
-        <div><strong>Education</strong><span>Moodle · LEARN / ENROLL</span></div>
-        <div><strong>Billing</strong><span>Kill Bill · BILL / SUBSCRIBE</span></div>
-        <div><strong>Promotion</strong><span>Revive · PROMOTE</span></div>
-        <div><strong>API / Agent</strong><span>APISIX + OpenMeter · API USE / METER</span></div>
+    <section class="view" data-view="launch" hidden>
+      <header class="page-head compact">
+        <div>
+          <p class="eyebrow">LAUNCH GATE</p>
+          <h1>No fake “LIVE”.</h1>
+          <p class="lead">The public shell is online. Economic execution becomes LIVE only after the required existing-repo adapters return real health and evidence-backed state.</p>
+        </div>
+      </header>
+      <div class="gate-list">
+        <article><span>01</span><div><h3>Identity</h3><p>Keycloak adapter and session flow connected.</p></div></article>
+        <article><span>02</span><div><h3>Policy</h3><p>OpenFGA + OPA decisions enforced on every economic action.</p></div></article>
+        <article><span>03</span><div><h3>Commerce</h3><p>Medusa tenant/catalog/order state connected through RWA.MS contracts.</p></div></article>
+        <article><span>04</span><div><h3>Payment + ledger</h3><p>Hyperswitch movement reconciled against Formance Ledger with idempotency.</p></div></article>
+        <article><span>05</span><div><h3>Workflow + events</h3><p>Temporal/NATS handle retry, timeout, failure recovery and receipts.</p></div></article>
+        <article><span>06</span><div><h3>Evidence</h3><p>Verified/paid/settled/connected claims render only from real backing state.</p></div></article>
       </div>
-      <p class="note">Engine availability is subject to license, security, deployment and jurisdiction review.</p>
-    </section>
-
-    <section class="section split">
-      <div>
-        <p class="eyebrow">FIRST EXIT GATE</p>
-        <h2>Create Business → Save → Provision → Pay / Book / Sell</h2>
-      </div>
-      <div class="checklist">
-        <span>RWA ID + Business ID</span>
-        <span>Policy decision</span>
-        <span>Trust/evidence state</span>
-        <span>Payment + fee routing</span>
-        <span>Provisioning receipt</span>
-        <span>Health + audit event</span>
-      </div>
-    </section>
-
-    <section class="disclaimer">
-      <strong>Product boundary</strong>
-      <p>
-        A business can operate without a token. A business utility token does not represent
-        equity, debt, business-asset ownership, revenue share, dividend or promised yield.
-        Financial RWA is a separate, policy-gated layer.
-      </p>
     </section>
   </main>
 
-  <footer>
-    <span>RWA.MS</span>
-    <span>SPEC → CONTRACT → BUILD → VERIFY → RELEASE</span>
-  </footer>
+  <script src="./app.js"></script>
 </body>
 </html>
