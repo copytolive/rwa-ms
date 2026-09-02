@@ -2,126 +2,433 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="RWA.MS — verified business network powered only by systems already present in RWA_MS_REPOS.">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f10">
+  <meta name="description" content="RWA.MS — app-first business and market network, combining Fomo-style interaction with Hyperliquid market capabilities.">
   <title>RWA.MS</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <aside class="sidebar">
-    <a class="brand" href="#home">RWA.MS</a>
-    <nav>
-      <button class="nav-btn active" data-target="home">Home</button>
-      <button class="nav-btn" data-target="business">Create Business</button>
-      <button class="nav-btn" data-target="systems">Systems</button>
-      <button class="nav-btn" data-target="launch">Launch Gate</button>
+  <div id="topTicker" class="ticker ticker-top" aria-label="Live markets"></div>
+
+  <header class="topbar">
+    <button class="brand button-reset" data-view="discover" aria-label="RWA.MS home">
+      <span class="brand-mark">R</span><span>RWA.MS</span>
+    </button>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <button class="nav-item active" data-view="discover">Discover</button>
+      <button class="nav-item" data-view="market">Markets</button>
+      <button class="nav-item" data-view="businesses">Businesses</button>
+      <button class="nav-item" data-view="portfolio">Portfolio</button>
+      <button class="nav-item" data-view="activity">Activity</button>
     </nav>
-    <div class="side-foot">
-      <span class="dot"></span>
-      <span>Public shell online</span>
+
+    <div class="topbar-actions">
+      <button class="icon-button" id="globalSearchButton" aria-label="Search">⌕</button>
+      <button class="connection-pill" id="connectionButton" aria-label="Connection settings">
+        <span id="connectionDot" class="connection-dot"></span>
+        <span id="connectionLabel">Hyperliquid</span>
+      </button>
+      <button class="avatar-button" id="accountButton" aria-label="Account">R</button>
     </div>
-  </aside>
+  </header>
 
-  <main class="app">
-    <div id="loadError" class="alert" hidden></div>
-
-    <section class="view" data-view="home">
-      <header class="page-head">
-        <div>
-          <p class="eyebrow">BUSINESS-FIRST TRUST + TRANSACTION NETWORK</p>
-          <h1>One shell over the systems you already have.</h1>
-          <p class="lead">RWA.MS uses the repositories already present in <code>RWA_MS_REPOS</code>. No new economic engine is introduced in this launch profile.</p>
+  <main class="shell">
+    <section class="view active" data-view-panel="discover">
+      <div class="discover-shell">
+        <div class="discover-head">
+          <div>
+            <p class="eyebrow">LIVE DISCOVER</p>
+            <h1>Markets, businesses and assets — one app.</h1>
+          </div>
+          <div class="discover-controls">
+            <button class="chip active" data-discover-filter="trending">Trending</button>
+            <button class="chip" data-discover-filter="gainers">Gainers</button>
+            <button class="chip" data-discover-filter="volume">Volume</button>
+          </div>
         </div>
-        <div class="status-pill">LAUNCH FOUNDATION</div>
-      </header>
 
-      <div class="metrics">
-        <article><strong id="sourceCount">—</strong><span>existing systems mapped</span></article>
-        <article><strong id="readyCount">—</strong><span>ready for adapter work</span></article>
-        <article><strong id="heldCount">—</strong><span>held behind review gate</span></article>
-      </div>
+        <div class="discover-grid">
+          <section class="feed-panel">
+            <div class="panel-head">
+              <div>
+                <span class="panel-kicker">HYPERLIQUID</span>
+                <h2>Perp markets</h2>
+              </div>
+              <button class="text-button" data-view="market">Open terminal →</button>
+            </div>
+            <div id="discoverMarkets" class="market-card-grid"></div>
+          </section>
 
-      <section class="panel">
-        <p class="eyebrow">FIRST LIVE VERTICAL</p>
-        <h2>Create Business → policy → provision → pay / sell → receipt</h2>
-        <div class="flow">
-          <span>Identity</span><i>→</i><span>Policy</span><i>→</i><span>Commerce</span><i>→</i><span>Payment</span><i>→</i><span>Ledger</span><i>→</i><span>Audit</span>
-        </div>
-      </section>
+          <aside class="discover-side">
+            <section class="mini-panel">
+              <div class="panel-head compact">
+                <div>
+                  <span class="panel-kicker">RWA.MS</span>
+                  <h2>Business engines</h2>
+                </div>
+              </div>
+              <div id="discoverBusinesses" class="stack-list"></div>
+            </section>
 
-      <section class="panel">
-        <p class="eyebrow">ACTIVE CORE SOURCES</p>
-        <div id="coreGrid" class="system-grid"></div>
-      </section>
-    </section>
-
-    <section class="view" data-view="business" hidden>
-      <header class="page-head compact">
-        <div>
-          <p class="eyebrow">BUSINESS PROVISIONING MANIFEST</p>
-          <h1>Create from existing engines.</h1>
-          <p class="lead">This step generates a local draft manifest only. It does not pretend that a backend tenant was created.</p>
-        </div>
-      </header>
-
-      <div class="two-col">
-        <form id="manifestForm" class="panel form-card">
-          <label>Business name<input name="displayName" required placeholder="Example business"></label>
-          <label>Jurisdiction<input name="jurisdiction" placeholder="e.g. ID"></label>
-          <label>Economic engine
-            <select name="template">
-              <option value="commerce">Commerce — Medusa</option>
-              <option value="creator">Creator — Ghost</option>
-              <option value="billing">Billing — Kill Bill</option>
-              <option value="api">API — APISIX</option>
-              <option value="meter">Metering — OpenMeter</option>
-            </select>
-          </label>
-          <button class="primary" type="submit">Generate launch manifest</button>
-        </form>
-        <div class="panel">
-          <p class="eyebrow">OUTPUT</p>
-          <pre id="manifestOutput">No manifest generated yet.</pre>
+            <section class="mini-panel">
+              <div class="panel-head compact">
+                <div>
+                  <span class="panel-kicker">SYSTEM</span>
+                  <h2>Launch status</h2>
+                </div>
+              </div>
+              <div class="status-list">
+                <div><span>UI shell</span><b class="good">ONLINE</b></div>
+                <div><span>Market data</span><b id="marketDataStatus">CONNECTING</b></div>
+                <div><span>Trading execution</span><b class="warn">ADAPTER REQUIRED</b></div>
+                <div><span>Business provisioning</span><b class="warn">ADAPTER REQUIRED</b></div>
+              </div>
+            </section>
+          </aside>
         </div>
       </div>
     </section>
 
-    <section class="view" data-view="systems" hidden>
-      <header class="page-head compact">
-        <div>
-          <p class="eyebrow">EXISTING REPOSITORY SYSTEMS</p>
-          <h1>Launch systems and held systems.</h1>
-          <p class="lead">Every card points back to a source already inside <span id="manifestSource">RWA_MS_REPOS</span>.</p>
-        </div>
-      </header>
-      <section class="panel">
-        <p class="eyebrow">LAUNCH ENGINES</p>
-        <div id="engineGrid" class="system-grid"></div>
-      </section>
-      <section class="panel">
-        <p class="eyebrow">HELD — DO NOT ACTIVATE YET</p>
-        <div id="heldGrid" class="system-grid"></div>
-      </section>
+    <section class="view" data-view-panel="market">
+      <div class="terminal">
+        <aside class="market-sidebar">
+          <div class="market-sidebar-head">
+            <div class="segmented" id="marketFilter">
+              <button class="active" data-market-filter="trending">Trending</button>
+              <button data-market-filter="gainers">Gainers</button>
+              <button data-market-filter="volume">Volume</button>
+            </div>
+            <div class="side-search">
+              <span>⌕</span>
+              <input id="marketSearch" placeholder="Search market" autocomplete="off">
+            </div>
+          </div>
+          <div id="marketList" class="market-list"></div>
+        </aside>
+
+        <section class="market-main">
+          <div class="market-header" id="marketHeader">
+            <div class="market-title">
+              <div class="market-symbol-icon" id="marketSymbolIcon">B</div>
+              <div>
+                <div class="market-symbol-row">
+                  <h2 id="marketSymbol">BTC</h2>
+                  <span class="market-type">PERP</span>
+                </div>
+                <div class="market-name" id="marketName">Bitcoin perpetual</div>
+              </div>
+            </div>
+            <div class="market-metrics">
+              <div><span>Mark</span><strong id="markPrice">—</strong></div>
+              <div><span>24h</span><strong id="change24h">—</strong></div>
+              <div><span>Volume</span><strong id="volume24h">—</strong></div>
+              <div><span>Funding</span><strong id="fundingRate">—</strong></div>
+              <div><span>Open interest</span><strong id="openInterest">—</strong></div>
+            </div>
+            <button class="watch-button" id="watchButton" aria-label="Watch market">☆</button>
+          </div>
+
+          <div class="chart-panel">
+            <div class="chart-toolbar">
+              <div class="timeframes" id="timeframes">
+                <button data-interval="5m">5m</button>
+                <button class="active" data-interval="15m">15m</button>
+                <button data-interval="1h">1h</button>
+                <button data-interval="4h">4h</button>
+                <button data-interval="1d">1D</button>
+              </div>
+              <div class="chart-tools">
+                <button id="refreshMarket" title="Refresh">↻</button>
+                <button id="fullscreenChart" title="Fullscreen">⛶</button>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="priceChart"></canvas>
+              <div id="chartEmpty" class="chart-empty" hidden>No candle data returned.</div>
+            </div>
+          </div>
+
+          <div class="mobile-market-stats">
+            <div><span>Volume</span><b id="mobileVolume">—</b></div>
+            <div><span>Funding</span><b id="mobileFunding">—</b></div>
+            <div><span>OI</span><b id="mobileOi">—</b></div>
+          </div>
+
+          <div class="market-tabs">
+            <div class="tab-bar" id="marketTabs">
+              <button class="active" data-tab="book">Order Book</button>
+              <button data-tab="trades">Live Trades</button>
+              <button data-tab="funding">Funding</button>
+              <button data-tab="activity">My Activity</button>
+            </div>
+
+            <div class="tab-panel active" data-tab-panel="book">
+              <div class="book-grid">
+                <div class="book-side">
+                  <div class="table-head"><span>Price</span><span>Size</span><span>Total</span></div>
+                  <div id="asksBook" class="book-rows asks"></div>
+                </div>
+                <div class="mid-price">
+                  <strong id="midBookPrice">—</strong>
+                  <span>mid</span>
+                </div>
+                <div class="book-side">
+                  <div id="bidsBook" class="book-rows bids"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" data-tab-panel="trades">
+              <div class="trade-table">
+                <div class="table-head trade-cols"><span>Side</span><span>Price</span><span>Size</span><span>Time</span></div>
+                <div id="liveTrades"></div>
+              </div>
+            </div>
+
+            <div class="tab-panel" data-tab-panel="funding">
+              <div id="fundingTable" class="funding-table"></div>
+            </div>
+
+            <div class="tab-panel" data-tab-panel="activity">
+              <div id="marketActivity" class="empty-state">
+                Add an account address to load open orders and fills.
+                <button class="secondary-button" data-open-account>Set account</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="trade-rail">
+          <section class="order-panel">
+            <div class="buy-sell-tabs" id="sideTabs">
+              <button class="active buy" data-side="buy">Buy</button>
+              <button class="sell" data-side="sell">Sell</button>
+            </div>
+
+            <div class="order-type-row" id="orderTypes">
+              <button class="active" data-order-type="market">Market</button>
+              <button data-order-type="limit">Limit</button>
+              <button data-order-type="trigger">Trigger</button>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                <span>Market</span>
+                <div class="readonly-field"><b id="orderMarket">BTC</b><span>PERP</span></div>
+              </label>
+
+              <label id="limitPriceField" hidden>
+                <span>Limit price</span>
+                <div class="input-shell"><input id="limitPrice" inputmode="decimal" placeholder="0.00"><em>USD</em></div>
+              </label>
+
+              <label>
+                <span>Size</span>
+                <div class="input-shell"><input id="orderSize" inputmode="decimal" placeholder="0.00"><em id="sizeUnit">BTC</em></div>
+              </label>
+
+              <div class="quick-size" id="quickSize">
+                <button data-size-pct="25">25%</button>
+                <button data-size-pct="50">50%</button>
+                <button data-size-pct="75">75%</button>
+                <button data-size-pct="100">Max</button>
+              </div>
+
+              <div class="leverage-row">
+                <div>
+                  <span class="field-label">Margin</span>
+                  <div class="segmented small" id="marginMode">
+                    <button class="active" data-margin="cross">Cross</button>
+                    <button data-margin="isolated">Isolated</button>
+                  </div>
+                </div>
+                <div>
+                  <span class="field-label">Leverage</span>
+                  <button class="leverage-button" id="leverageButton"><span id="leverageValue">5</span>×</button>
+                </div>
+              </div>
+
+              <div class="risk-row">
+                <label class="toggle-row"><input id="reduceOnly" type="checkbox"><span>Reduce only</span></label>
+                <label class="toggle-row"><input id="tpslToggle" type="checkbox"><span>TP / SL</span></label>
+              </div>
+
+              <div id="tpslFields" class="tpsl-grid" hidden>
+                <label><span>Take profit</span><input id="takeProfit" inputmode="decimal" placeholder="Price"></label>
+                <label><span>Stop loss</span><input id="stopLoss" inputmode="decimal" placeholder="Price"></label>
+              </div>
+
+              <div class="order-summary">
+                <div><span>Mark</span><b id="summaryMark">—</b></div>
+                <div><span>Est. value</span><b id="summaryValue">—</b></div>
+                <div><span>Execution</span><b id="executionMode">Preview only</b></div>
+              </div>
+
+              <button id="placeOrderButton" class="primary-action buy-action">Preview Buy</button>
+              <p class="execution-note">Real order submission stays locked until a Hyperliquid execution adapter is configured. No private key is stored in this page.</p>
+            </div>
+          </section>
+
+          <section class="position-panel">
+            <div class="position-head">
+              <h3>Position</h3>
+              <button class="text-button" data-open-account>Account</button>
+            </div>
+            <div id="positionBody" class="position-empty">
+              Add an address to view live Hyperliquid positions.
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <div class="mobile-trade-bar">
+        <button class="mobile-sell" data-mobile-side="sell">Sell</button>
+        <button class="mobile-buy" data-mobile-side="buy">Buy <span id="mobileBuySymbol">BTC</span></button>
+      </div>
     </section>
 
-    <section class="view" data-view="launch" hidden>
-      <header class="page-head compact">
-        <div>
-          <p class="eyebrow">LAUNCH GATE</p>
-          <h1>No fake “LIVE”.</h1>
-          <p class="lead">The public shell is online. Economic execution becomes LIVE only after the required existing-repo adapters return real health and evidence-backed state.</p>
+    <section class="view" data-view-panel="businesses">
+      <div class="entity-page">
+        <div class="entity-head">
+          <div>
+            <p class="eyebrow">BUSINESS NETWORK</p>
+            <h1>Existing engines, surfaced as RWA.MS businesses.</h1>
+          </div>
+          <button class="primary-compact" id="createBusinessButton">Create Business</button>
         </div>
-      </header>
-      <div class="gate-list">
-        <article><span>01</span><div><h3>Identity</h3><p>Keycloak adapter and session flow connected.</p></div></article>
-        <article><span>02</span><div><h3>Policy</h3><p>OpenFGA + OPA decisions enforced on every economic action.</p></div></article>
-        <article><span>03</span><div><h3>Commerce</h3><p>Medusa tenant/catalog/order state connected through RWA.MS contracts.</p></div></article>
-        <article><span>04</span><div><h3>Payment + ledger</h3><p>Hyperswitch movement reconciled against Formance Ledger with idempotency.</p></div></article>
-        <article><span>05</span><div><h3>Workflow + events</h3><p>Temporal/NATS handle retry, timeout, failure recovery and receipts.</p></div></article>
-        <article><span>06</span><div><h3>Evidence</h3><p>Verified/paid/settled/connected claims render only from real backing state.</p></div></article>
+        <div class="entity-toolbar">
+          <div class="side-search grow"><span>⌕</span><input id="businessSearch" placeholder="Search business engine"></div>
+          <button class="chip active">All</button>
+          <button class="chip">Ready</button>
+          <button class="chip">Held</button>
+        </div>
+        <div id="businessGrid" class="business-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" data-view-panel="portfolio">
+      <div class="entity-page">
+        <div class="entity-head">
+          <div>
+            <p class="eyebrow">PORTFOLIO</p>
+            <h1>Hyperliquid account + RWA.MS holdings.</h1>
+          </div>
+          <button class="secondary-button" data-open-account>Set account</button>
+        </div>
+
+        <div class="portfolio-cards">
+          <article><span>Account value</span><strong id="portfolioValue">—</strong></article>
+          <article><span>Margin used</span><strong id="portfolioMargin">—</strong></article>
+          <article><span>Withdrawable</span><strong id="portfolioWithdrawable">—</strong></article>
+          <article><span>Open positions</span><strong id="portfolioPositionsCount">—</strong></article>
+        </div>
+
+        <section class="data-panel">
+          <div class="panel-head">
+            <div><span class="panel-kicker">LIVE ACCOUNT</span><h2>Positions</h2></div>
+            <button class="text-button" id="refreshPortfolio">Refresh</button>
+          </div>
+          <div id="portfolioPositions" class="positions-table">
+            <div class="empty-state">Set an account address to load positions.</div>
+          </div>
+        </section>
+
+        <section class="data-panel">
+          <div class="panel-head">
+            <div><span class="panel-kicker">ORDERS</span><h2>Open orders</h2></div>
+          </div>
+          <div id="portfolioOrders" class="positions-table">
+            <div class="empty-state">Set an account address to load open orders.</div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" data-view-panel="activity">
+      <div class="entity-page">
+        <div class="entity-head">
+          <div>
+            <p class="eyebrow">LIVE ACTIVITY</p>
+            <h1>Market stream, account fills and system receipts.</h1>
+          </div>
+        </div>
+        <div class="activity-columns">
+          <section class="data-panel">
+            <div class="panel-head"><div><span class="panel-kicker">MARKET</span><h2>Live trades</h2></div></div>
+            <div id="activityTrades" class="activity-list"></div>
+          </section>
+          <section class="data-panel">
+            <div class="panel-head"><div><span class="panel-kicker">ACCOUNT</span><h2>Recent fills</h2></div></div>
+            <div id="accountFills" class="activity-list"><div class="empty-state">Set an account address to load fills.</div></div>
+          </section>
+        </div>
       </div>
     </section>
   </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="active" data-view="discover"><span>⌂</span><b>Discover</b></button>
+    <button data-view="market"><span>⌁</span><b>Markets</b></button>
+    <button data-view="businesses"><span>▦</span><b>Business</b></button>
+    <button data-view="portfolio"><span>◒</span><b>Portfolio</b></button>
+    <button data-view="activity"><span>◉</span><b>Activity</b></button>
+  </nav>
+
+  <div id="searchSheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close-sheet></div>
+    <section class="sheet-panel search-sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title-row"><h2>Search RWA.MS</h2><button class="icon-button" data-close-sheet>×</button></div>
+      <div class="big-search"><span>⌕</span><input id="globalSearch" placeholder="Search markets, businesses, assets…" autofocus></div>
+      <div id="globalSearchResults" class="search-results"></div>
+    </section>
+  </div>
+
+  <div id="accountSheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close-sheet></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title-row"><h2>Account & execution</h2><button class="icon-button" data-close-sheet>×</button></div>
+      <label class="sheet-label">Hyperliquid account address
+        <input id="accountAddress" placeholder="0x…" autocomplete="off">
+      </label>
+      <label class="sheet-label">Execution adapter URL
+        <input id="adapterUrl" placeholder="https://your-adapter.example.com">
+      </label>
+      <p class="sheet-note">Account address is used for public read-only account state. The adapter URL is optional and is only used for confirmed order submission. RWA.MS never asks for your private key in this UI.</p>
+      <div class="sheet-actions">
+        <button class="secondary-button" data-close-sheet>Cancel</button>
+        <button class="primary-compact" id="saveAccountButton">Save</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="orderSheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close-sheet></div>
+    <section class="sheet-panel trade-sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title-row"><h2 id="mobileOrderTitle">Buy BTC</h2><button class="icon-button" data-close-sheet>×</button></div>
+      <div id="mobileOrderMount"></div>
+    </section>
+  </div>
+
+  <div id="confirmSheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close-sheet></div>
+    <section class="sheet-panel confirm-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title-row"><h2>Review order</h2><button class="icon-button" data-close-sheet>×</button></div>
+      <pre id="orderPreview"></pre>
+      <div class="sheet-actions">
+        <button class="secondary-button" data-close-sheet>Cancel</button>
+        <button class="primary-compact" id="confirmOrderButton">Confirm</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+  <div id="bottomTicker" class="ticker ticker-bottom" aria-hidden="true"></div>
 
   <script src="./app.js"></script>
 </body>
