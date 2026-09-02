@@ -67,7 +67,12 @@ jobs:
           test -s visual-check/desktop-1920x1080.png
           test -s visual-check/mobile-390x844.png
           "$CHROME" --headless=new --no-sandbox --disable-gpu --virtual-time-budget=12000 --dump-dom "http://127.0.0.1:4173/?audit=1#market" > visual-check/runtime-audit.html
-          grep -q 'data-audit-failed="0"' visual-check/runtime-audit.html
+          if ! grep -q 'data-audit-failed="0"' visual-check/runtime-audit.html; then
+            echo "Runtime UI audit failed"
+            grep -o 'data-audit-failed="[0-9]*"' visual-check/runtime-audit.html || true
+            grep -o '<pre id="runtimeAudit"[^>]*>[^<]*' visual-check/runtime-audit.html || true
+            exit 1
+          fi
       - name: Upload visual verification
         uses: actions/upload-artifact@v4
         with:

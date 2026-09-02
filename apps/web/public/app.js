@@ -93,7 +93,7 @@ function runRuntimeAudit(){
   add("TradingView library",Boolean(window.LightweightCharts),"LightweightCharts global");
   add("real market rows",state.markets.length>0,state.markets.length+" markets");
   add("no browser write key",!document.body.textContent.toLowerCase().includes("private key input"),"preview-only write gate");
-  const failed=checks.filter(x=>!x.ok);document.body.dataset.auditFailed=String(failed.length);document.body.dataset.auditTotal=String(checks.length);window.__RWA_AUDIT__={total:checks.length,passed:checks.length-failed.length,failed:failed.length,checks};return window.__RWA_AUDIT__;
+  const failed=checks.filter(x=>!x.ok);document.body.dataset.auditFailed=String(failed.length);document.body.dataset.auditTotal=String(checks.length);window.__RWA_AUDIT__={total:checks.length,passed:checks.length-failed.length,failed:failed.length,checks};let pre=$("#runtimeAudit");if(!pre){pre=document.createElement("pre");pre.id="runtimeAudit";pre.hidden=true;document.body.appendChild(pre)}pre.textContent=JSON.stringify(window.__RWA_AUDIT__);return window.__RWA_AUDIT__;
 }
 
 async function boot(){renderEngines();wire();if(window.LightweightCharts)initCharts();else setStatus("offline","TradingView missing");renderAccount();await loadMarkets();if(state.account)await loadAccount();setInterval(()=>loadMarkets(),15000);if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});if(new URLSearchParams(location.search).get("audit")==="1")setTimeout(runRuntimeAudit,700)}
