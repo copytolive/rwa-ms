@@ -225,7 +225,7 @@
           '<span class="engine-state">READY</span>' +
         '</button>'
       ).join("");
-      $("[data-view]", desktop).forEach(bindViewButton);
+      $$("[data-view]", desktop).forEach(bindViewButton);
     }
     const mobile = $("#mobileEngineGrid");
     if (mobile) {
@@ -234,7 +234,7 @@
           '<span class="engine-icon">' + engineIcon(item.id) + '</span><b>' + escapeHtml(item.label.replace(" / Membership","")) + '</b>' +
         '</button>'
       ).join("");
-      $("[data-view]", mobile).forEach(bindViewButton);
+      $$("[data-view]", mobile).forEach(bindViewButton);
     }
   }
 
@@ -874,7 +874,8 @@
     document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheets()});
   }
 
-  async function boot() {\n    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
+  async function boot() {
+    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
     wireEvents();
     await Promise.allSettled([loadProfile(),loadMarkets(true)]);
     if (!state.markets.find(m=>m.symbol===state.selected) && state.markets.length) state.selected=state.markets[0].symbol;
