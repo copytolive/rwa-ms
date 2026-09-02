@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b0f10">
   <meta name="description" content="RWA.MS — app-first business and market network, combining Fomo-style interaction with Hyperliquid market capabilities.">
   <title>RWA.MS</title>
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="manifest" href="./manifest.webmanifest">\n  <link rel="icon" href="./icon.svg" type="image/svg+xml">\n  <meta name="apple-mobile-web-app-capable" content="yes">\n  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\n  <link rel="stylesheet" href="./styles.css">\n  <link rel="stylesheet" href="./option1.css">
 </head>
 <body>
   <div id="topTicker" class="ticker ticker-top" aria-label="Live markets"></div>
@@ -282,6 +282,14 @@
           </section>
         </aside>
       </div>
+
+      <section class="engine-dock" aria-label="Existing repository business engines">
+        <div class="engine-dock-head">
+          <div><span class="panel-kicker">EXISTING REPOSITORIES</span><strong>Business Engine</strong></div>
+          <button class="text-button" data-view="businesses">View all →</button>
+        </div>
+        <div id="marketEngineGrid" class="engine-dock-grid"></div>
+      </section>
 
       <div class="mobile-trade-bar">
         <button class="mobile-sell" data-mobile-side="sell">Sell</button>
