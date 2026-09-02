@@ -12,7 +12,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test tests/*.test.mjs",
-    "check": "npm run typecheck && npm test"
+    "check": "npm run typecheck && npm test",
+    "vendor:charts": "mkdir -p apps/web/public/vendor && cp node_modules/lightweight-charts/dist/lightweight-charts.standalone.production.js apps/web/public/vendor/lightweight-charts.standalone.production.js && cp node_modules/lightweight-charts/LICENSE apps/web/public/vendor/LIGHTWEIGHT_CHARTS_LICENSE.txt"
+  },
+  "dependencies": {
+    "lightweight-charts": "5.2.1"
   },
   "devDependencies": {
     "typescript": "5.9.2"
