@@ -73,8 +73,8 @@ function wire(){
   $("#walletBtn").onclick=configureAccount;$("#accountBtn").onclick=configureAccount;$("#setAccount").onclick=configureAccount;$("#mobileSetAccount").onclick=configureAccount;
   $("#notifyBtn").onclick=()=>setView("activity");
   $$("[data-mobile-side]").forEach(b=>b.onclick=()=>openMobileOrder(b.dataset.mobileSide));
-  $("[data-mobile-order-side]").forEach(b=>b.onclick=()=>{state.side=b.dataset.mobileOrderSide;syncMobileOrder()});
-  $("[data-mobile-order-type]").forEach(b=>b.onclick=()=>{state.orderType=b.dataset.mobileOrderType;syncMobileOrder()});
+  $$("[data-mobile-order-side]").forEach(b=>b.onclick=()=>{state.side=b.dataset.mobileOrderSide;syncMobileOrder()});
+  $$("[data-mobile-order-type]").forEach(b=>b.onclick=()=>{state.orderType=b.dataset.mobileOrderType;syncMobileOrder()});
   $("#mobileOrderPrice").oninput=syncMobileOrder;$("#mobileOrderSize").oninput=syncMobileOrder;
   function applyMobilePct(value){$("#mobileSizeRange").value=String(value);$$("[data-mobile-pct]").forEach(x=>x.classList.toggle("active",Number(x.dataset.mobilePct)===Number(value)));const size=sizeFromPercent(value);if(size!==null)$("#mobileOrderSize").value=String(Number(size.toFixed(8)));syncMobileOrder()}
   $$("[data-mobile-pct]").forEach(b=>b.onclick=()=>applyMobilePct(b.dataset.mobilePct));$("#mobileSizeRange").oninput=e=>applyMobilePct(e.target.value);
