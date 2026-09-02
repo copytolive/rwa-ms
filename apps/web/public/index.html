@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#070c0e"/>
-<title>RWA.MS — Neon Graphite</title>
-<link rel="manifest" href="manifest.webmanifest"/>
-<link rel="icon" href="icon.svg" type="image/svg+xml"/>
-<link rel="stylesheet" href="styles.css"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05090a">
+<meta name="description" content="RWA.MS — real-time markets and business engines.">
+<title>RWA.MS — Markets</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app-frame">
+<div class="app">
   <header class="topbar">
-    <button class="brand nav-link" data-view="market"><span class="brand-r">RWA</span><i></i><span>.MS</span></button>
+    <button class="brand nav-link" data-view="market" aria-label="RWA.MS Markets"><span>RWA</span><i></i><span>.MS</span></button>
     <nav class="topnav">
       <button class="nav-link" data-view="discover">Discover</button>
       <button class="nav-link active" data-view="market">Markets</button>
@@ -21,119 +22,161 @@
       <button class="nav-link" data-view="activity">Activity</button>
     </nav>
     <div class="top-actions">
-      <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Search markets, businesses..."/></label>
-      <button class="square-btn" id="walletBtn">◉<b></b></button>
-      <button class="square-btn" id="notifyBtn">♧</button>
-      <button class="avatar-btn">◉</button>
-      <button class="square-btn ghost">›</button>
+      <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Search live Hyperliquid markets…"></label>
+      <button id="walletBtn" class="status-btn"><span id="statusDot"></span><b id="statusText">Connecting</b></button>
+      <button class="icon-btn" id="notifyBtn">♧</button>
+      <button class="avatar-btn" id="accountBtn">R</button>
     </div>
   </header>
 
-  <div id="ticker" class="ticker"></div>
+  <div class="ticker" id="ticker"><div class="ticker-loading">Loading real Hyperliquid markets…</div></div>
 
   <main>
     <section class="view" data-view-panel="discover">
-      <div class="simple-page">
-        <div class="section-title"><span>DISCOVER</span><h1>Everything tradable, sellable and verifiable in one network.</h1></div>
-        <div id="discoverGrid" class="discover-cards"></div>
+      <div class="page">
+        <div class="page-title"><span>DISCOVER</span><h1>Live markets and repo-backed business engines.</h1></div>
+        <div id="discoverGrid" class="discover-grid"></div>
       </div>
     </section>
 
-    <section class="view active" data-view-panel="market">
-      <section class="mobile-dashboard">
-        <div class="mobile-mini-ticker"><span>◉ PROP&nbsp;&nbsp; 1,248.30&nbsp; <b class="positive">+2.53%</b></span><span>◉ INVOICE&nbsp;&nbsp; 98.77&nbsp; <b class="positive">+0.68%</b></span></div>
-        <article class="mobile-overview-card">
-          <div class="mobile-card-title"><b>Portfolio Overview</b><button>⛶</button></div>
-          <div class="mobile-total"><span>Total Value</span><strong>$125,430.68</strong><b class="positive">+4.35% (24H)</b><canvas id="mobileSpark"></canvas></div>
-          <div class="mobile-summary"><div><span>Unrealized P&L</span><b class="positive">+$8,742.21</b></div><div><span>Buying Power</span><b>$45,231.67</b></div><div><span>Positions</span><b>7</b></div></div>
-        </article>
-        <article class="mobile-list-card">
-          <div class="mobile-card-title"><b>My Positions</b><button data-view="portfolio">View all</button></div>
-          <div class="mobile-pos-row"><span><i class="mi green">▣</i><b>Manhattan Office REIT</b><small>PROP</small></span><em>245.00</em><strong class="positive">+$9,270.25</strong></div>
-          <div class="mobile-pos-row"><span><i class="mi blue">◆</i><b>U.S. Treasury Note</b><small>USTN</small></span><em>310.00</em><strong class="positive">+$611.80</strong></div>
-          <div class="mobile-pos-row"><span><i class="mi gold">◇</i><b>Solar Revenue Share</b><small>SRSH</small></span><em>125.00</em><strong class="negative">-$122.50</strong></div>
-        </article>
-        <article class="mobile-engine-card">
-          <div class="mobile-card-title"><b>Business Engine</b><button data-view="businesses">View all</button></div>
-          <div class="mobile-engine-icons" id="mobileEngineIcons"></div>
-        </article>
-        <article class="mobile-market-card">
-          <div class="mobile-market-head"><span><i class="mi green">▣</i><b>Manhattan Office REIT</b><small>PROP</small></span><canvas id="mobileMarketSpark"></canvas></div>
-          <div class="mobile-market-actions"><button class="sell">Sell<br><b>1,248.10</b></button><button class="buy">Buy<br><b>1,248.30</b></button></div>
-        </article>
-      </section>
-      <div class="market-shell terminal">
-        <aside class="markets-rail market-sidebar panel">
-          <div class="rail-tabs"><button class="active">Markets</button><button>Trending</button></div>
-          <label class="rail-search"><span>⌕</span><input id="marketSearch" placeholder="Search markets..."/></label>
-          <div class="asset-chips"><button class="active">All</button><button>RWA</button><button>Equity</button><button>Debt</button><button>NFT</button><button>Commodities</button></div>
-          <div class="market-table-head"><span>Market</span><span>Price</span><span>24H %</span><span>Vol</span></div>
-          <div id="marketRows" class="market-rows"></div>
+    <section class="view market-view active" data-view-panel="market">
+      <div class="desktop-terminal">
+        <aside class="market-rail panel">
+          <div class="rail-top">
+            <div class="rail-tabs"><button class="active" data-rail-mode="markets">Markets</button><button data-rail-mode="watchlist">Watchlist</button></div>
+            <label class="rail-search"><span>⌕</span><input id="marketSearch" placeholder="Search markets…"></label>
+            <div class="market-chips"><button class="active" data-market-sort="volume">Top Volume</button><button data-market-sort="gainers">Gainers</button><button data-market-sort="losers">Losers</button></div>
+          </div>
+          <div class="market-head"><span>Market</span><span>Price</span><span>24H</span><span>Vol</span></div>
+          <div id="marketRows" class="market-rows"><div class="empty">Loading live market list…</div></div>
         </aside>
 
         <section class="workspace">
-          <div class="asset-head panel">
-            <div class="asset-identity">
-              <div class="coin-logo green">◉</div>
-              <div><div class="asset-name-row"><h2 id="assetName">Manhattan Office REIT</h2><span id="assetCodeBadge">PROP</span></div><div class="asset-price-row"><strong id="assetPrice">1,248.30</strong><b id="assetChange" class="positive">+2.53%</b></div></div>
+          <header class="asset-head panel">
+            <div class="asset-id">
+              <div class="coin" id="assetIcon">₿</div>
+              <div>
+                <div class="asset-title"><h2 id="assetName">BTC Perpetual</h2><span id="assetCode">BTC</span></div>
+                <div class="asset-price"><strong id="assetPrice">—</strong><b id="assetChange">—</b></div>
+              </div>
             </div>
             <div class="asset-stats">
-              <div><span>24H HIGH</span><b id="high24">1,276.80</b></div>
-              <div><span>24H LOW</span><b id="low24">1,210.20</b></div>
-              <div><span>24H VOL</span><b id="volume24">$43.1M</b></div>
-              <div><span>OPEN INTEREST</span><b id="openInterest">$12.6M</b></div>
-              <div><span>FUNDING</span><b id="funding" class="positive">0.0032%</b></div>
+              <div><span>24H HIGH</span><b id="high24">—</b></div>
+              <div><span>24H LOW</span><b id="low24">—</b></div>
+              <div><span>24H VOL</span><b id="volume24">—</b></div>
+              <div><span>OPEN INTEREST</span><b id="openInterest">—</b></div>
+              <div><span>FUNDING</span><b id="funding">—</b></div>
             </div>
-            <div class="asset-icons"><button>★</button><button>⛶</button></div>
-          </div>
+            <button class="watch-btn" id="watchBtn" title="Watch market">☆</button>
+          </header>
 
-          <div class="chart-panel panel">
-            <div class="chart-toolbar"><div class="timeframes"><button>1m</button><button>5m</button><button>15m</button><button>1h</button><button class="active">1H</button><button>4H</button><button>1D</button><button class="indicator">⌁ Indicators</button></div><div><button>⚙</button><button>⛶</button><button>▣</button></div></div>
-            <div class="chart-body"><div class="drawing-tools"><button>＋</button><button>╱</button><button>⌁</button><button>⌗</button><button>△</button><button>▢</button><button>⊕</button></div><canvas id="priceChart"></canvas></div>
-          </div>
+          <section class="chart-card panel">
+            <div class="chart-toolbar">
+              <div class="timeframes">
+                <button data-interval="1m">1m</button>
+                <button data-interval="5m">5m</button>
+                <button data-interval="15m">15m</button>
+                <button class="active" data-interval="1h">1H</button>
+                <button data-interval="4h">4H</button>
+                <button data-interval="1d">1D</button>
+              </div>
+              <div class="chart-source"><span class="tv-mark">TV</span><b>TradingView Lightweight Charts 5.2.1</b><span>· Hyperliquid candles</span></div>
+            </div>
+            <div id="priceChart" class="tv-chart" aria-label="TradingView Lightweight Charts candlestick chart"></div>
+          </section>
 
-          <div class="lower-panel panel">
-            <div class="lower-tabs"><button class="active" data-ltab="book">Order Book</button><button data-ltab="trades">Trades</button><button data-ltab="funding">Funding</button><button data-ltab="info">Market Info</button></div>
+          <section class="lower-card panel">
+            <div class="lower-tabs">
+              <button class="active" data-ltab="book">Order Book</button>
+              <button data-ltab="trades">Live Trades</button>
+              <button data-ltab="funding">Funding</button>
+              <button data-ltab="info">Market Info</button>
+            </div>
             <div class="lower-content active" data-lpanel="book">
-              <div class="orderbook"><div class="ob-head"><span>Price (USD)</span><span>Size (PROP)</span><span>Total (USD)</span></div><div id="asks"></div><div class="spread">Spread&nbsp;&nbsp; 0.10 (0.008%)</div><div id="bids"></div></div>
-              <div class="live-trades"><h3>Live Trades</h3><div id="liveTrades"></div></div>
+              <div class="orderbook">
+                <div class="ob-head"><span>Price</span><span>Size</span><span>Total</span></div>
+                <div id="asks"></div>
+                <div class="spread" id="spread">Spread —</div>
+                <div id="bids"></div>
+              </div>
+              <div class="live-trades"><h3>Live Trades</h3><div id="liveTrades"><div class="empty">Waiting for WebSocket trades…</div></div></div>
             </div>
-            <div class="lower-content" data-lpanel="trades"><div class="placeholder-table" id="tradeHistory"></div></div>
-            <div class="lower-content" data-lpanel="funding"><div class="placeholder-table" id="fundingRows"></div></div>
-            <div class="lower-content" data-lpanel="info"><div class="market-info-grid"><div><span>Source</span><b>30_MARKETS/hyperliquid-python-sdk</b></div><div><span>Chart</span><b>lightweight-charts</b></div><div><span>Execution</span><b>Fail-closed until signer adapter</b></div></div></div>
-          </div>
+            <div class="lower-content" data-lpanel="trades"><div id="tradeHistory" class="rows-panel"><div class="empty">Connect a public account to load fills.</div></div></div>
+            <div class="lower-content" data-lpanel="funding"><div id="fundingRows" class="rows-panel"></div></div>
+            <div class="lower-content" data-lpanel="info">
+              <div class="info-grid">
+                <div><span>Market Data</span><b>Hyperliquid Info API</b></div>
+                <div><span>Chart Engine</span><b>TradingView Lightweight Charts 5.2.1</b></div>
+                <div><span>Local Source</span><b>30_MARKETS/lightweight-charts</b></div>
+                <div><span>Execution</span><b>Fail-closed until signer adapter</b></div>
+              </div>
+            </div>
+          </section>
         </section>
 
         <aside class="trade-rail">
           <section class="order-entry panel">
             <div class="buy-sell"><button class="active buy" data-side="buy">Buy</button><button class="sell" data-side="sell">Sell</button></div>
             <div class="order-types"><button class="active" data-order-type="limit">Limit</button><button data-order-type="market">Market</button><button data-order-type="stop">Stop</button></div>
-            <label><span>Price (USD)</span><div class="field"><input id="orderPrice" value="1,248.30"/><div><button>−</button><button>＋</button></div></div></label>
-            <label><span>Size (PROP)</span><div class="field"><input id="orderSize" value="10.00"/></div></label>
-            <input id="sizeRange" type="range" min="0" max="100" value="25"/>
-            <div class="quick-pct"><button>10%</button><button class="active">25%</button><button>50%</button><button>75%</button><button>100%</button></div>
-            <div class="order-meta"><div><span>Order Value</span><b id="orderValue">12,483.00 USD</b></div><div><span>Time in Force</span><b>GTC⌄</b></div></div>
-            <button class="place-order" id="placeOrder">Place Buy Order</button>
-            <div class="fee-row"><span>Est. Fee</span><b>3.74 USD</b></div><div class="fee-row"><span>Buying Power</span><b class="positive">45,231.67 USD</b></div>
+            <label><span>Price (USD)</span><div class="field"><input id="orderPrice" inputmode="decimal" placeholder="0.00"><div><button type="button" data-price-step="-1">−</button><button type="button" data-price-step="1">＋</button></div></div></label>
+            <label><span>Size</span><div class="field"><input id="orderSize" inputmode="decimal" placeholder="0.00"></div></label>
+            <input id="sizeRange" type="range" min="0" max="100" value="25">
+            <div class="quick-pct"><button data-pct="10">10%</button><button class="active" data-pct="25">25%</button><button data-pct="50">50%</button><button data-pct="75">75%</button><button data-pct="100">100%</button></div>
+            <div class="order-meta"><div><span>Order Value</span><b id="orderValue">—</b></div><div><span>Time in Force</span><b>GTC</b></div><div><span>Market</span><b id="orderMarket">BTC</b></div></div>
+            <button class="place-order" id="placeOrder">Preview Buy Order</button>
+            <p class="execution-note">Live market data is real. Write execution remains locked until a secure Hyperliquid signer/execution adapter is configured.</p>
           </section>
-          <section class="position-card panel"><h3>Your Position</h3><div class="position-top"><span class="positive">Long</span><strong>245.00 PROP</strong></div><div class="pos-grid"><span>Avg. Price<b>1,210.45 USD</b></span><span>Mark Price<b>1,248.30 USD</b></span><span>Unrealized P&L<b class="positive">+9,270.25 USD (+3.12%)</b></span></div><div class="position-foot"><span>Leverage <b>2.5x</b></span><span>Liq. Price <b>892.11 USD</b></span></div><div class="pos-actions"><button>Reduce</button><button>Close</button><button>TP/SL</button></div></section>
+          <section class="position-card panel">
+            <div class="position-head"><h3>Your Position</h3><button id="setAccount">Set account</button></div>
+            <div id="positionBody" class="empty">Add a public Hyperliquid address to load the real position.</div>
+          </section>
         </aside>
       </div>
 
       <section class="engine-strip panel">
-        <div class="engine-intro"><h3>Business Engine</h3><p>Power real-world value with modular services.</p><button>Manage</button></div>
+        <div class="engine-intro"><h3>Business Engine</h3><p>Existing repositories already in RWA_MS_REPOS.</p><button data-view="businesses">View systems</button></div>
         <div id="engineCards" class="engine-cards"></div>
+      </section>
+
+      <section class="mobile-dashboard">
+        <div id="mobileTicker" class="mobile-ticker"></div>
+        <article class="mobile-overview panel">
+          <div class="mobile-card-title"><b>Portfolio Overview</b><button id="mobileSetAccount">Set account</button></div>
+          <div class="mobile-total"><span>Total Value</span><strong id="mobilePortfolioValue">—</strong><b id="mobilePortfolioPnl">Public account not set</b></div>
+          <div class="mobile-summary"><div><span>Withdrawable</span><b id="mobileWithdrawable">—</b></div><div><span>Margin Used</span><b id="mobileMarginUsed">—</b></div><div><span>Positions</span><b id="mobilePositionCount">—</b></div></div>
+        </article>
+        <article class="mobile-list panel">
+          <div class="mobile-card-title"><b>My Positions</b><button data-view="portfolio">View all</button></div>
+          <div id="mobilePositions"><div class="empty">Set a public Hyperliquid account to load positions.</div></div>
+        </article>
+        <article class="mobile-engine panel">
+          <div class="mobile-card-title"><b>Business Engine</b><button data-view="businesses">View all</button></div>
+          <div id="mobileEngineIcons" class="mobile-engine-icons"></div>
+        </article>
+        <article class="mobile-market panel">
+          <div class="mobile-market-head">
+            <div><span id="mobileMarketCode">BTC</span><b id="mobileMarketName">BTC Perpetual</b><small id="mobileMarketPrice">—</small></div>
+            <div id="mobileChart" class="mobile-tv-chart"></div>
+          </div>
+          <div class="mobile-market-actions"><button class="sell" data-mobile-side="sell">Sell<br><b id="mobileSellPrice">—</b></button><button class="buy" data-mobile-side="buy">Buy<br><b id="mobileBuyPrice">—</b></button></div>
+        </article>
       </section>
     </section>
 
-    <section class="view" data-view-panel="businesses"><div class="simple-page"><div class="section-title"><span>BUSINESSES</span><h1>Existing repo engines, one operating shell.</h1></div><div id="businessGrid" class="business-grid"></div></div></section>
-    <section class="view" data-view-panel="portfolio"><div class="simple-page portfolio-page"><div class="section-title"><span>PORTFOLIO</span><h1>Your positions and business holdings.</h1></div><div class="portfolio-summary"><div><span>Total Value</span><strong>$125,430.68</strong><b class="positive">+4.35% (24H)</b></div><div><span>Unrealized P&L</span><strong class="positive">+$8,742.21</strong></div><div><span>Buying Power</span><strong>$45,231.67</strong></div><div><span>Positions</span><strong>7</strong></div></div><div id="portfolioList" class="portfolio-list"></div></div></section>
-    <section class="view" data-view-panel="activity"><div class="simple-page"><div class="section-title"><span>ACTIVITY</span><h1>Orders, fills, payments and receipts.</h1></div><div id="activityList" class="activity-list"></div></div></section>
+    <section class="view" data-view-panel="businesses"><div class="page"><div class="page-title"><span>BUSINESSES</span><h1>Existing repo engines, one operating shell.</h1></div><div id="businessGrid" class="business-grid"></div></div></section>
+    <section class="view" data-view-panel="portfolio"><div class="page"><div class="page-title"><span>PORTFOLIO</span><h1>Real Hyperliquid public-account state.</h1></div><div id="portfolioSummary" class="portfolio-summary"></div><div id="portfolioList" class="portfolio-list"></div></div></section>
+    <section class="view" data-view-panel="activity"><div class="page"><div class="page-title"><span>ACTIVITY</span><h1>Real fills plus market stream.</h1></div><div id="activityList" class="activity-list"></div></div></section>
   </main>
 
-  <nav class="mobile-nav"><button data-view="discover"><span>⌕</span><b>Discover</b></button><button class="active" data-view="market"><span>▥</span><b>Markets</b></button><button data-view="businesses"><span>▦</span><b>Business</b></button><button data-view="portfolio"><span>◇</span><b>Portfolio</b></button><button data-view="activity"><span>♧</span><b>Activity</b></button></nav>
-  <div class="mobile-trade-actions mobile-trade-bar"><button class="sell">Sell<br><b>1,248.10</b></button><button class="buy">Buy<br><b>1,248.30</b></button></div>
+  <nav class="mobile-nav">
+    <button data-view="discover"><span>⌕</span><b>Discover</b></button>
+    <button class="active" data-view="market"><span>▥</span><b>Markets</b></button>
+    <button data-view="businesses"><span>▦</span><b>Business</b></button>
+    <button data-view="portfolio"><span>◇</span><b>Portfolio</b></button>
+    <button data-view="activity"><span>♧</span><b>Activity</b></button>
+  </nav>
 </div>
+<script src="vendor/lightweight-charts.standalone.production.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

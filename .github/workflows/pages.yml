@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "apps/web/public/**"
+      - "package.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -25,6 +26,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned TradingView Lightweight Charts
+        run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Vendor TradingView Lightweight Charts
+        run: npm run vendor:charts
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
