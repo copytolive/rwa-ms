@@ -81,6 +81,8 @@ test("responsive typography has explicit desktop and mobile readability floors",
 
 
 test("runtime button audit checks every control in each selector group",()=>{
-  assert.equal(js.includes("const els=$(sel)"),true);
-  assert.equal(js.includes("const els=$(sel)"),false);
+  const queryAllToken="const els="+String.fromCharCode(36)+String.fromCharCode(36)+"(sel)";
+  const queryOneToken="const els="+String.fromCharCode(36)+"(sel)";
+  assert.equal(js.includes(queryAllToken),true);
+  assert.equal(js.includes(queryOneToken),false);
 });
