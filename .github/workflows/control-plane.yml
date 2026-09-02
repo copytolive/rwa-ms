@@ -1,0 +1,51 @@
+name: RWA.MS control plane
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  repository-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify canonical control files
+        run: |
+          test -s README.md
+          test -s docs/SOURCE_OF_TRUTH.md
+          test -s docs/ARCHITECTURE.md
+          test -s docs/EXECUTION.md
+
+      - name: Application checks when source exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f package.json; then
+            corepack enable || true
+            if test -f pnpm-lock.yaml; then
+              pnpm install --frozen-lockfile
+              pnpm run typecheck --if-present
+              pnpm run lint --if-present
+              pnpm test --if-present
+              pnpm run build --if-present
+            elif test -f package-lock.json; then
+              npm ci
+              npm run typecheck --if-present
+              npm run lint --if-present
+              npm test --if-present
+              npm run build --if-present
+            else
+              npm install --no-audit --no-fund
+              npm run typecheck --if-present
+              npm run lint --if-present
+              npm test --if-present
+              npm run build --if-present
+            fi
+          else
+            echo "Application source not imported yet; control-plane validation only."
+          fi
