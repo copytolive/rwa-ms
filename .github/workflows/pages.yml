@@ -66,6 +66,8 @@ jobs:
           "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=390,844 --virtual-time-budget=10000 --screenshot=visual-check/mobile-390x844.png http://127.0.0.1:4173/#market
           test -s visual-check/desktop-1920x1080.png
           test -s visual-check/mobile-390x844.png
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --virtual-time-budget=12000 --dump-dom "http://127.0.0.1:4173/?audit=1#market" > visual-check/runtime-audit.html
+          grep -q 'data-audit-failed="0"' visual-check/runtime-audit.html
       - name: Upload visual verification
         uses: actions/upload-artifact@v4
         with:

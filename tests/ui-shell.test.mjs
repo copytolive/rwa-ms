@@ -57,3 +57,24 @@ test("deploy creates a real Hyperliquid snapshot fallback and busts old PWA cach
   assert.match(sw,/rwa-ms-real-market-v3/);
   assert.doesNotMatch(sw,/rwa-ms-option1-v1/);
 });
+
+test("every visible static click control is wired or intentionally gated",()=>{
+  const requiredHandlers=[
+    "notifyBtn","sizeRange","mobilePreviewOrder","mobileMarketPicker","openBusinessesFromSheet","goActivityFromPreview",
+    "data-mobile-order-side","data-mobile-order-type","data-mobile-pct","data-engine"
+  ];
+  for(const token of requiredHandlers) assert.match(html+js,new RegExp(token));
+  assert.match(js,/runRuntimeAudit/);
+  assert.match(js,/showOrderPreview/);
+  assert.match(js,/openSystemSheet/);
+  assert.doesNotMatch(js,/placeOrder"\)\.onclick=\(\)=>alert/);
+});
+
+test("responsive typography has explicit desktop and mobile readability floors",()=>{
+  assert.match(css,/@media\(min-width:821px\)/);
+  assert.match(css,/\.topnav button\{font-size:12px\}/);
+  assert.match(css,/\.market-name b\{font-size:11px\}/);
+  assert.match(css,/\.mobile-card-title b\{font-size:11px\}/);
+  assert.match(css,/\.mobile-total strong\{font-size:24px\}/);
+  assert.match(css,/grid-template-rows:28px auto minmax\(150px,1fr\) auto auto/);
+});
