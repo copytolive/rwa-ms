@@ -1,0 +1,53 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+credentials*.json
+service-account*.json
+secrets/
+.secret/
+
+# Dependencies / build
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+.turbo/
+.cache/
+__pycache__/
+*.pyc
+
+# Local runtime/data
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.pid
+*.bak
+*.backup
+.DS_Store
+Thumbs.db
+
+# Local/private source-of-truth material
+00_SOURCE_OF_TRUTH/private/
+reference-local/
+local-import/
+*.local.zip
+*.local.tar
+*.local.tar.gz
+
+# IDE
+.vscode/
+.idea/
