@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "principle": "existing-repositories-only",
+  "visualReference": {
+    "sourcePath": "90_REFERENCE_ONLY/fomo",
+    "commit": "09312c6ed76c6c33c810132bb6f5d558f9ca61cb",
+    "mode": "interaction-reference"
+  },
+  "primaryFlow": [
+    {
+      "stage": "IDENTITY",
+      "system": "keycloak",
+      "sourcePath": "10_CORE_INFRA/keycloak"
+    },
+    {
+      "stage": "AUTHORIZATION",
+      "system": "openfga",
+      "sourcePath": "10_CORE_INFRA/openfga"
+    },
+    {
+      "stage": "POLICY",
+      "system": "opa",
+      "sourcePath": "10_CORE_INFRA/opa"
+    },
+    {
+      "stage": "ENGINE",
+      "system": "medusa",
+      "sourcePath": "20_BUSINESS_ENGINES/medusa"
+    },
+    {
+      "stage": "PAYMENT",
+      "system": "hyperswitch",
+      "sourcePath": "10_CORE_INFRA/hyperswitch"
+    },
+    {
+      "stage": "LEDGER",
+      "system": "formance-ledger",
+      "sourcePath": "10_CORE_INFRA/ledger"
+    },
+    {
+      "stage": "EVENT",
+      "system": "nats",
+      "sourcePath": "10_CORE_INFRA/nats-server"
+    },
+    {
+      "stage": "WORKFLOW",
+      "system": "temporal",
+      "sourcePath": "10_CORE_INFRA/temporal"
+    },
+    {
+      "stage": "OBSERVABILITY",
+      "system": "opentelemetry",
+      "sourcePath": "10_CORE_INFRA/opentelemetry-collector"
+    }
+  ],
+  "marketFlow": [
+    {
+      "system": "hyperliquid-python-sdk",
+      "sourcePath": "30_MARKETS/hyperliquid-python-sdk",
+      "role": "market data, orders, positions"
+    },
+    {
+      "system": "hummingbot",
+      "sourcePath": "30_MARKETS/hummingbot",
+      "role": "connectors and strategy runtime"
+    },
+    {
+      "system": "lightweight-charts",
+      "sourcePath": "30_MARKETS/lightweight-charts",
+      "role": "chart capability"
+    }
+  ],
+  "businessApps": [
+    {
+      "system": "medusa",
+      "sourcePath": "20_BUSINESS_ENGINES/medusa",
+      "role": "commerce"
+    },
+    {
+      "system": "chatwoot",
+      "sourcePath": "20_BUSINESS_ENGINES/chatwoot",
+      "role": "support"
+    },
+    {
+      "system": "Ghost",
+      "sourcePath": "20_BUSINESS_ENGINES/Ghost",
+      "role": "content/membership"
+    },
+    {
+      "system": "killbill",
+      "sourcePath": "20_BUSINESS_ENGINES/killbill",
+      "role": "billing"
+    },
+    {
+      "system": "odoo",
+      "sourcePath": "20_BUSINESS_ENGINES/odoo",
+      "role": "operations/CRM"
+    },
+    {
+      "system": "corteza",
+      "sourcePath": "20_BUSINESS_ENGINES/corteza",
+      "role": "business workflow"
+    },
+    {
+      "system": "apisix",
+      "sourcePath": "20_BUSINESS_ENGINES/apisix",
+      "role": "API gateway"
+    },
+    {
+      "system": "openmeter",
+      "sourcePath": "20_BUSINESS_ENGINES/openmeter",
+      "role": "usage metering"
+    }
+  ]
+}

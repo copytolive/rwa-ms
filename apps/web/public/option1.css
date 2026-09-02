@@ -1,0 +1,27 @@
+/* Option 1 — Neon Graphite: selected production visual direction */
+:root{--green:#18f48c;--green-soft:rgba(24,244,140,.12);--panel:#0d1415;--panel-2:#10191a;--bg:#070b0c;--bg-deep:#050809}
+body{background:radial-gradient(900px 420px at 50% 115%,rgba(16,255,137,.09),transparent 70%),linear-gradient(180deg,#070a0b 0%,#090d0e 100%)}
+.topbar{border-color:rgba(24,244,140,.12);box-shadow:0 10px 40px rgba(0,0,0,.22)}
+.brand-mark{box-shadow:0 0 18px rgba(24,244,140,.16)}
+.nav-item.active{color:#dfffee;text-shadow:0 0 16px rgba(24,244,140,.22)}
+.market-row.active,.engine-tile:hover,.business-card:hover{background:linear-gradient(90deg,rgba(24,244,140,.095),rgba(24,244,140,.02))}
+.feed-panel,.mini-panel,.data-panel,.order-panel,.position-panel,.business-card{box-shadow:inset 0 1px rgba(255,255,255,.015),0 10px 34px rgba(0,0,0,.16)}
+.chart-wrap{background:linear-gradient(rgba(24,244,140,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(24,244,140,.025) 1px,transparent 1px),linear-gradient(180deg,#090e0f,#070b0c);background-size:44px 44px,44px 44px,auto}
+.primary-action,.primary-compact,.mobile-buy,.buy-sell-tabs button.buy.active{box-shadow:0 0 0 1px rgba(24,244,140,.05),0 0 24px rgba(24,244,140,.10)}
+.engine-dock{border-top:1px solid var(--line);background:linear-gradient(180deg,#080c0d,#070b0c);padding:9px 12px 11px}
+.engine-dock-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.engine-dock-head strong{font-size:11px}.engine-dock-head .panel-kicker{display:inline;margin-right:8px}
+.engine-dock-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+.engine-tile{min-width:0;display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:9px;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--panel);text-align:left;cursor:pointer}
+.engine-icon{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;border:1px solid rgba(24,244,140,.22);background:rgba(24,244,140,.07);color:var(--green);font-weight:900}
+.engine-copy{min-width:0}.engine-copy b{display:block;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.engine-copy small{display:block;color:var(--muted);font-size:7px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.engine-state{font-size:7px;color:var(--green);letter-spacing:.08em}
+.mobile-engine-panel{display:none;border:1px solid var(--line);background:var(--bg-deep);border-radius:var(--radius);overflow:hidden;margin:10px 0}
+.mobile-engine-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line)}
+.mobile-engine-tile{background:var(--bg);padding:10px 5px;display:grid;place-items:center;gap:6px;color:var(--muted);font-size:8px;cursor:pointer}
+.mobile-engine-tile b{font-size:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mobile-engine-tile .engine-icon{width:28px;height:28px}
+.market-card,.stack-item,.engine-tile,.business-card{transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.market-card:hover,.engine-tile:hover,.business-card:hover{border-color:rgba(24,244,140,.18)}
+@media(min-width:901px){.terminal{height:calc(100svh - var(--ticker-h) - var(--header-h) - var(--ticker-h) - 96px);min-height:520px}}
+@media(max-width:900px){.engine-dock{display:none}.mobile-engine-panel{display:block}.market-card-grid{gap:6px;background:transparent}.market-card{border:1px solid var(--line);border-radius:9px}.mobile-nav{box-shadow:0 -10px 30px rgba(0,0,0,.28)}}
+@media(max-width:560px){.topbar-actions .icon-button{border-color:transparent;background:transparent}.market-header{background:linear-gradient(180deg,rgba(7,11,12,.99),rgba(7,11,12,.96))}.mobile-trade-bar{padding-left:10px;padding-right:10px}}

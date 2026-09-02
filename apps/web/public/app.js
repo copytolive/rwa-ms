@@ -206,6 +206,38 @@
     }));
   }
 
+
+  function engineIcon(id) {
+    const icons = { commerce:"▣", support:"◌", creator:"✦", billing:"▤", api:"⌁", meter:"∿", operations:"◇", "workflow-app":"↻" };
+    return icons[id] || "◆";
+  }
+
+  function renderEngineDocks() {
+    const engines = state.profile?.launchEngines || [];
+    const preferred = ["commerce","support","creator","billing","operations","api","meter","workflow-app"];
+    const ordered = preferred.map(id => engines.find(x => x.id === id)).filter(Boolean);
+    const desktop = $("#marketEngineGrid");
+    if (desktop) {
+      desktop.innerHTML = ordered.slice(0, 6).map(item =>
+        '<button class="engine-tile button-reset" data-view="businesses" title="' + escapeHtml(item.sourcePath) + '">' +
+          '<span class="engine-icon">' + engineIcon(item.id) + '</span>' +
+          '<span class="engine-copy"><b>' + escapeHtml(item.label) + '</b><small>' + escapeHtml(item.action || item.sourcePath) + '</small></span>' +
+          '<span class="engine-state">READY</span>' +
+        '</button>'
+      ).join("");
+      $$("[data-view]", desktop).forEach(bindViewButton);
+    }
+    const mobile = $("#mobileEngineGrid");
+    if (mobile) {
+      mobile.innerHTML = ordered.slice(0, 5).map(item =>
+        '<button class="mobile-engine-tile button-reset" data-view="businesses" title="' + escapeHtml(item.sourcePath) + '">' +
+          '<span class="engine-icon">' + engineIcon(item.id) + '</span><b>' + escapeHtml(item.label.replace(" / Membership","")) + '</b>' +
+        '</button>'
+      ).join("");
+      $$("[data-view]", mobile).forEach(bindViewButton);
+    }
+  }
+
   function renderDiscoverBusinesses() {
     const root = $("#discoverBusinesses");
     if (!root) return;
@@ -843,6 +875,7 @@
   }
 
   async function boot() {
+    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
     wireEvents();
     await Promise.allSettled([loadProfile(),loadMarkets(true)]);
     if (!state.markets.find(m=>m.symbol===state.selected) && state.markets.length) state.selected=state.markets[0].symbol;
@@ -851,7 +884,7 @@
     await Promise.allSettled([loadBook(),loadCandles(),loadFunding(),loadAccountState()]);
     connectMarketWs();
     const hash=location.hash.replace("#","");
-    setView(["discover","market","businesses","portfolio","activity"].includes(hash)?hash:"discover");
+    setView(["discover","market","businesses","portfolio","activity"].includes(hash)?hash:"market");
     setInterval(()=>loadMarkets(true),15000);
     setInterval(()=>{if(document.visibilityState==="visible"&&$(".view[data-view-panel='market']").classList.contains("active"))loadBook()},12000);
   }

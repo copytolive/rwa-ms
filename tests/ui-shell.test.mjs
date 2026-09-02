@@ -43,3 +43,10 @@ test("real execution is fail-closed without an adapter", () => {
   assert.match(js, /adapterUrl/);
   assert.doesNotMatch(js, /privateKey|secret_key|mnemonic/i);
 });
+
+test("Option 1 Neon Graphite production shell includes existing repo engine dock and PWA", () => {
+  assert.match(html, /id="marketEngineGrid"/);
+  assert.match(html, /manifest\.webmanifest/);
+  assert.match(css + fs.readFileSync(new URL("../apps/web/public/option1.css", import.meta.url), "utf8"), /engine-dock-grid/);
+  assert.match(js, /renderEngineDocks/);
+});

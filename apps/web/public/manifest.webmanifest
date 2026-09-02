@@ -1,0 +1,18 @@
+{
+  "name": "RWA.MS",
+  "short_name": "RWA.MS",
+  "description": "RWA.MS markets, businesses and portfolio application.",
+  "start_url": "./#market",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070b0c",
+  "theme_color": "#070b0c",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

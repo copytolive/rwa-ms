@@ -7,30 +7,227 @@
   ],
   "rule": "Only systems already present in RWA_MS_REPOS are eligible for this launch profile.",
   "core": [
-    {"id":"identity","label":"Identity","sourcePath":"10_CORE_INFRA/keycloak","commit":"f277758ecd46b484d759a34b2f0a422d6cb0bc15","repo":"keycloak/keycloak","state":"READY_FOR_ADAPTER"},
-    {"id":"authorization","label":"Authorization","sourcePath":"10_CORE_INFRA/openfga","commit":"a7dfe8491dc7f9cd5905f4e9ae6c8e1d718c4bd9","repo":"openfga/openfga","state":"READY_FOR_ADAPTER"},
-    {"id":"policy","label":"Policy","sourcePath":"10_CORE_INFRA/opa","commit":"88c2ee0cdc9087ab1c3f09b95fa2b9ba5c8f69f5","repo":"open-policy-agent/opa","state":"READY_FOR_ADAPTER"},
-    {"id":"ledger","label":"Ledger","sourcePath":"10_CORE_INFRA/ledger","commit":"461050af98235a630e1db231ef087684eb321f6a","repo":"formancehq/ledger","state":"READY_FOR_ADAPTER"},
-    {"id":"payments","label":"Payments","sourcePath":"10_CORE_INFRA/hyperswitch","commit":"79a3aae8a0c26e96ce33deaa08edb57e51b9db4c","repo":"juspay/hyperswitch","state":"READY_FOR_ADAPTER"},
-    {"id":"events","label":"Events","sourcePath":"10_CORE_INFRA/nats-server","commit":"3a66a489d262bf89b71a71c955c94920394532f3","repo":"nats-io/nats-server","state":"READY_FOR_ADAPTER"},
-    {"id":"workflow","label":"Durable Workflow","sourcePath":"10_CORE_INFRA/temporal","commit":"30e8ba922904d48e223c27f5de5a9447a6dfdcd8","repo":"temporalio/temporal","state":"READY_FOR_ADAPTER"},
-    {"id":"observability","label":"Observability","sourcePath":"10_CORE_INFRA/opentelemetry-collector","commit":"f3de30da19c01f6f4cec2985bdbe9a3cfcc69118","repo":"open-telemetry/opentelemetry-collector","state":"READY_FOR_ADAPTER"}
+    {
+      "id": "identity",
+      "label": "Identity",
+      "sourcePath": "10_CORE_INFRA/keycloak",
+      "commit": "f277758ecd46b484d759a34b2f0a422d6cb0bc15",
+      "repo": "keycloak/keycloak",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "authorization",
+      "label": "Authorization",
+      "sourcePath": "10_CORE_INFRA/openfga",
+      "commit": "a7dfe8491dc7f9cd5905f4e9ae6c8e1d718c4bd9",
+      "repo": "openfga/openfga",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "policy",
+      "label": "Policy",
+      "sourcePath": "10_CORE_INFRA/opa",
+      "commit": "88c2ee0cdc9087ab1c3f09b95fa2b9ba5c8f69f5",
+      "repo": "open-policy-agent/opa",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "ledger",
+      "label": "Ledger",
+      "sourcePath": "10_CORE_INFRA/ledger",
+      "commit": "461050af98235a630e1db231ef087684eb321f6a",
+      "repo": "formancehq/ledger",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "payments",
+      "label": "Payments",
+      "sourcePath": "10_CORE_INFRA/hyperswitch",
+      "commit": "79a3aae8a0c26e96ce33deaa08edb57e51b9db4c",
+      "repo": "juspay/hyperswitch",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "events",
+      "label": "Events",
+      "sourcePath": "10_CORE_INFRA/nats-server",
+      "commit": "3a66a489d262bf89b71a71c955c94920394532f3",
+      "repo": "nats-io/nats-server",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "workflow",
+      "label": "Durable Workflow",
+      "sourcePath": "10_CORE_INFRA/temporal",
+      "commit": "30e8ba922904d48e223c27f5de5a9447a6dfdcd8",
+      "repo": "temporalio/temporal",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "observability",
+      "label": "Observability",
+      "sourcePath": "10_CORE_INFRA/opentelemetry-collector",
+      "commit": "f3de30da19c01f6f4cec2985bdbe9a3cfcc69118",
+      "repo": "open-telemetry/opentelemetry-collector",
+      "state": "READY_FOR_ADAPTER"
+    }
   ],
   "launchEngines": [
-    {"id":"commerce","label":"Commerce","action":"SELL / CHECKOUT","sourcePath":"20_BUSINESS_ENGINES/medusa","commit":"bd9d9425351c8dee9712c4c67d712f18e0cf44f0","repo":"medusajs/medusa","state":"READY_FOR_ADAPTER"},
-    {"id":"creator","label":"Creator / Membership","action":"PUBLISH / SUBSCRIBE","sourcePath":"20_BUSINESS_ENGINES/Ghost","commit":"c57f7a64b0df689c8e0f6a8369f798558dc50f20","repo":"TryGhost/Ghost","state":"READY_FOR_ADAPTER"},
-    {"id":"billing","label":"Recurring Billing","action":"BILL / SUBSCRIBE","sourcePath":"20_BUSINESS_ENGINES/killbill","commit":"cb60779c171391be558cd7aebb1eafea60ad2b82","repo":"killbill/killbill","state":"READY_FOR_ADAPTER"},
-    {"id":"api","label":"API / Agent Economy","action":"API USE / METER","sourcePath":"20_BUSINESS_ENGINES/apisix","commit":"f0bb251a97652bb655b03e39e81fda1a3e1e93b2","repo":"apache/apisix","state":"READY_FOR_ADAPTER"},
-    {"id":"meter","label":"Usage Metering","action":"METER","sourcePath":"20_BUSINESS_ENGINES/openmeter","commit":"3a40f5a7913dce83e52ec38010dd58d475181441","repo":"openmeterio/openmeter","state":"READY_FOR_ADAPTER"}
+    {
+      "id": "commerce",
+      "label": "Commerce",
+      "action": "SELL / CHECKOUT",
+      "sourcePath": "20_BUSINESS_ENGINES/medusa",
+      "commit": "bd9d9425351c8dee9712c4c67d712f18e0cf44f0",
+      "repo": "medusajs/medusa",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "creator",
+      "label": "Creator / Membership",
+      "action": "PUBLISH / SUBSCRIBE",
+      "sourcePath": "20_BUSINESS_ENGINES/Ghost",
+      "commit": "c57f7a64b0df689c8e0f6a8369f798558dc50f20",
+      "repo": "TryGhost/Ghost",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "billing",
+      "label": "Recurring Billing",
+      "action": "BILL / SUBSCRIBE",
+      "sourcePath": "20_BUSINESS_ENGINES/killbill",
+      "commit": "cb60779c171391be558cd7aebb1eafea60ad2b82",
+      "repo": "killbill/killbill",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "api",
+      "label": "API / Agent Economy",
+      "action": "API USE / METER",
+      "sourcePath": "20_BUSINESS_ENGINES/apisix",
+      "commit": "f0bb251a97652bb655b03e39e81fda1a3e1e93b2",
+      "repo": "apache/apisix",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "meter",
+      "label": "Usage Metering",
+      "action": "METER",
+      "sourcePath": "20_BUSINESS_ENGINES/openmeter",
+      "commit": "3a40f5a7913dce83e52ec38010dd58d475181441",
+      "repo": "openmeterio/openmeter",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "support",
+      "label": "Support",
+      "action": "CHAT / HELPDESK",
+      "sourcePath": "20_BUSINESS_ENGINES/chatwoot",
+      "commit": "4e884754656411d3a4d051fd3f3dd0e1e4e2047b",
+      "repo": "chatwoot/chatwoot",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "operations",
+      "label": "Operations / CRM",
+      "action": "CRM / OPERATE",
+      "sourcePath": "20_BUSINESS_ENGINES/odoo",
+      "commit": "eaa167f9b648d19d22688b968354f25e7b3075f4",
+      "repo": "odoo/odoo",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "workflow-app",
+      "label": "Business Workflow",
+      "action": "WORKFLOW / RECORD",
+      "sourcePath": "20_BUSINESS_ENGINES/corteza",
+      "commit": "3835dfc4ac8bd89381753f09042ad147a4502576",
+      "repo": "cortezaproject/corteza",
+      "state": "READY_FOR_ADAPTER"
+    }
   ],
   "heldEngines": [
-    {"id":"booking","label":"Booking","sourcePath":"20_BUSINESS_ENGINES/cal.diy","commit":"e70486cd9bf0f16e168e8dcf4281935a503a1f92","reason":"Local README recommends personal/non-production community use; commercial launch review required."},
-    {"id":"ticketing","label":"Ticketing","sourcePath":"20_BUSINESS_ENGINES/pretix","commit":"58a58eff8379e227684f651731e4edc71477921b","reason":"License/deployment review gate not closed."},
-    {"id":"education","label":"Education","sourcePath":"20_BUSINESS_ENGINES/moodle","commit":"6216fe4ed19a5a3c88c0951d1647e9f2d626bcbb","reason":"GPL isolation and deployment review gate not closed."},
-    {"id":"promotion","label":"Ads / Promotion","sourcePath":"20_BUSINESS_ENGINES/revive-adserver","commit":"a83eca71c97953700c276b062a69276b47fb5925","reason":"GPL isolation and release-package deployment review gate not closed."}
+    {
+      "id": "booking",
+      "label": "Booking",
+      "sourcePath": "20_BUSINESS_ENGINES/cal.diy",
+      "commit": "e70486cd9bf0f16e168e8dcf4281935a503a1f92",
+      "reason": "Local README recommends personal/non-production community use; commercial launch review required."
+    },
+    {
+      "id": "ticketing",
+      "label": "Ticketing",
+      "sourcePath": "20_BUSINESS_ENGINES/pretix",
+      "commit": "58a58eff8379e227684f651731e4edc71477921b",
+      "reason": "License/deployment review gate not closed."
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "sourcePath": "20_BUSINESS_ENGINES/moodle",
+      "commit": "6216fe4ed19a5a3c88c0951d1647e9f2d626bcbb",
+      "reason": "GPL isolation and deployment review gate not closed."
+    },
+    {
+      "id": "promotion",
+      "label": "Ads / Promotion",
+      "sourcePath": "20_BUSINESS_ENGINES/revive-adserver",
+      "commit": "a83eca71c97953700c276b062a69276b47fb5925",
+      "reason": "GPL isolation and release-package deployment review gate not closed."
+    }
   ],
   "data": [
-    {"id":"analytics","label":"Analytics","sourcePath":"50_DATA/ClickHouse","repo":"ClickHouse/ClickHouse","state":"PIN_REVIEW"},
-    {"id":"search","label":"Search","sourcePath":"50_DATA/OpenSearch","commit":"d6f2cb4ecd3063a827069fbcd04da7e40e0760af","repo":"opensearch-project/OpenSearch","state":"READY_FOR_ADAPTER"}
-  ]
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "sourcePath": "50_DATA/ClickHouse",
+      "repo": "ClickHouse/ClickHouse",
+      "state": "PIN_REVIEW"
+    },
+    {
+      "id": "search",
+      "label": "Search",
+      "sourcePath": "50_DATA/OpenSearch",
+      "commit": "d6f2cb4ecd3063a827069fbcd04da7e40e0760af",
+      "repo": "opensearch-project/OpenSearch",
+      "state": "READY_FOR_ADAPTER"
+    }
+  ],
+  "market": [
+    {
+      "id": "hyperliquid",
+      "label": "Hyperliquid",
+      "action": "MARKET DATA / ORDER / POSITION",
+      "sourcePath": "30_MARKETS/hyperliquid-python-sdk",
+      "commit": "2fdb18f9517675ea03695a0962bd19eece9c83f0",
+      "repo": "hyperliquid-dex/hyperliquid-python-sdk",
+      "state": "LIVE_READ_PATH"
+    },
+    {
+      "id": "hummingbot",
+      "label": "Hummingbot",
+      "action": "MARKET MAKING / CONNECTORS",
+      "sourcePath": "30_MARKETS/hummingbot",
+      "commit": "2bfaccc48dd49e71a5b6d9b3011808e127dd00cd",
+      "repo": "hummingbot/hummingbot",
+      "state": "READY_FOR_ADAPTER"
+    },
+    {
+      "id": "charts",
+      "label": "Lightweight Charts",
+      "action": "CHART",
+      "sourcePath": "30_MARKETS/lightweight-charts",
+      "commit": "b04fc2926ce8746168e0d9810db2ff3951adfcc8",
+      "repo": "tradingview/lightweight-charts",
+      "state": "READY_FOR_ADAPTER"
+    }
+  ],
+  "experienceReference": {
+    "id": "fomo",
+    "label": "Fomo.family interaction reference",
+    "sourcePath": "90_REFERENCE_ONLY/fomo",
+    "commit": "09312c6ed76c6c33c810132bb6f5d558f9ca61cb",
+    "state": "REFERENCE_ONLY",
+    "rule": "Interaction/layout reference only; no automatic source copy into RWA.MS core."
+  }
 }
