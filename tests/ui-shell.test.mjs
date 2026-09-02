@@ -45,3 +45,15 @@ test("browser app parses and never asks for private keys",()=>{
   assert.doesNotMatch(js,/privateKey|mnemonic|secretKey/);
   assert.match(js,/never enter a private key/);
 });
+
+test("deploy creates a real Hyperliquid snapshot fallback and busts old PWA cache",()=>{
+  const workflow=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
+  const sw=fs.readFileSync(new URL("../apps/web/public/sw.js",import.meta.url),"utf8");
+  assert.match(workflow,/Capture real Hyperliquid deployment snapshot/);
+  assert.match(workflow,/metaAndAssetCtxs/);
+  assert.match(workflow,/btc-candles-1h\.json/);
+  assert.match(js,/Hyperliquid Snapshot/);
+  assert.match(js,/data\/hyperliquid-meta\.json/);
+  assert.match(sw,/rwa-ms-real-market-v3/);
+  assert.doesNotMatch(sw,/rwa-ms-option1-v1/);
+});
