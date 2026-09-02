@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "policy": "isolated-upstream-no-core-fork",
+  "source": "RWA_MS_REPOS/99_LICENSE_AUDIT",
+  "engines": [
+    {"id":"commerce-medusa","folder":"20_BUSINESS_ENGINES/medusa","commit":"bd9d9425351c8dee9712c4c67d712f18e0cf44f0","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["SELL","BUY"]},
+    {"id":"booking-cal-diy","folder":"20_BUSINESS_ENGINES/cal.diy","commit":"e70486cd9bf0f16e168e8dcf4281935a503a1f92","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["BOOK","PAY"],"deploymentWarning":"README recommends non-production/personal community use; commercial deployment requires product/legal review."},
+    {"id":"ticketing-pretix","folder":"20_BUSINESS_ENGINES/pretix","commit":"58a58eff8379e227684f651731e4edc71477921b","licenseAudit":"ISOLATE_AND_REVIEW","action":["TICKET","ACCESS"]},
+    {"id":"creator-ghost","folder":"20_BUSINESS_ENGINES/Ghost","commit":"c57f7a64b0df689c8e0f6a8369f798558dc50f20","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["PUBLISH","SUBSCRIBE"]},
+    {"id":"education-moodle","folder":"20_BUSINESS_ENGINES/moodle","commit":"6216fe4ed19a5a3c88c0951d1647e9f2d626bcbb","licenseAudit":"ISOLATE_AND_REVIEW","action":["LEARN"]},
+    {"id":"billing-killbill","folder":"20_BUSINESS_ENGINES/killbill","commit":"cb60779c171391be558cd7aebb1eafea60ad2b82","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["PAY","SUBSCRIBE"]},
+    {"id":"promotion-revive","folder":"20_BUSINESS_ENGINES/revive-adserver","commit":"a83eca71c97953700c276b062a69276b47fb5925","licenseAudit":"ISOLATE_AND_REVIEW","action":["PROMOTE"]},
+    {"id":"api-apisix","folder":"20_BUSINESS_ENGINES/apisix","commit":"f0bb251a97652bb655b03e39e81fda1a3e1e93b2","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["API_USE"]},
+    {"id":"meter-openmeter","folder":"20_BUSINESS_ENGINES/openmeter","commit":"3a40f5a7913dce83e52ec38010dd58d475181441","licenseAudit":"SOURCE_OK_WITH_NOTICE","action":["API_USE"]}
+  ],
+  "platform": [
+    {"id":"identity-keycloak","folder":"10_CORE_INFRA/keycloak","commit":"f277758ecd46b484d759a34b2f0a422d6cb0bc15"},
+    {"id":"authz-openfga","folder":"10_CORE_INFRA/openfga","commit":"a7dfe8491dc7f9cd5905f4e9ae6c8e1d718c4bd9"},
+    {"id":"policy-opa","folder":"10_CORE_INFRA/opa","commit":"88c2ee0cdc9087ab1c3f09b95fa2b9ba5c8f69f5"},
+    {"id":"ledger-formance","folder":"10_CORE_INFRA/ledger","commit":"461050af98235a630e1db231ef087684eb321f6a"},
+    {"id":"payments-hyperswitch","folder":"10_CORE_INFRA/hyperswitch","commit":"79a3aae8a0c26e96ce33deaa08edb57e51b9db4c"},
+    {"id":"events-nats","folder":"10_CORE_INFRA/nats-server","commit":"3a66a489d262bf89b71a71c955c94920394532f3"},
+    {"id":"workflow-temporal","folder":"10_CORE_INFRA/temporal","commit":"30e8ba922904d48e223c27f5de5a9447a6dfdcd8"},
+    {"id":"observability-otel","folder":"10_CORE_INFRA/opentelemetry-collector","commit":"f3de30da19c01f6f4cec2985bdbe9a3cfcc69118"}
+  ]
+}
