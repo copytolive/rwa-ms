@@ -111,7 +111,7 @@ function configureAccount(){
   openModal(
     "Public Hyperliquid account",
     '<label class="modal-field">Public address<input id="modalAccountInput" autocomplete="off" placeholder="0x…" value="'+state.account+'"></label>'+
-    '<p class="modal-note">Read-only public address only. Never enter a private key, seed phrase, or mnemonic.</p>',
+    '<p class="modal-note">Read-only public address only. Never enter a private key, seed phrase, or any signing secret.</p>',
     [{id:"clear-account",label:"Clear"},{id:"save-account",label:"Save",primary:true}]
   );
   setTimeout(()=>$("#modalAccountInput")?.focus(),0);
