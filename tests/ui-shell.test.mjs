@@ -78,3 +78,9 @@ test("responsive typography has explicit desktop and mobile readability floors",
   assert.match(css,/\.mobile-total strong\{font-size:24px\}/);
   assert.match(css,/grid-template-rows:28px auto minmax\(150px,1fr\) auto auto/);
 });
+
+
+test("runtime button audit checks every control in each selector group",()=>{
+  assert.match(js,/const els=\$\$\(sel\)/);
+  assert.doesNotMatch(js,/const els=\$\(sel\);add\(name,els\.length/);
+});
