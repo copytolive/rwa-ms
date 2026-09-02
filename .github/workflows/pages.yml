@@ -33,6 +33,24 @@ jobs:
         run: npm install --no-audit --no-fund --ignore-scripts
       - name: Vendor TradingView Lightweight Charts
         run: npm run vendor:charts
+      - name: Capture real Hyperliquid deployment snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p apps/web/public/data
+          API="https://api.hyperliquid.xyz/info"
+          HDR="content-type: application/json"
+          curl -fsS --retry 3 --retry-delay 2 -H "$HDR" -d '{"type":"metaAndAssetCtxs"}' "$API" > apps/web/public/data/hyperliquid-meta.json
+          NOW_MS=$(($(date +%s)*1000))
+          START_CANDLES=$((NOW_MS-648000000))
+          START_FUNDING=$((NOW_MS-86400000))
+          curl -fsS --retry 3 --retry-delay 2 -H "$HDR" -d "{\"type\":\"candleSnapshot\",\"req\":{\"coin\":\"BTC\",\"interval\":\"1h\",\"startTime\":$START_CANDLES,\"endTime\":$NOW_MS}}" "$API" > apps/web/public/data/btc-candles-1h.json
+          curl -fsS --retry 3 --retry-delay 2 -H "$HDR" -d '{"type":"l2Book","coin":"BTC","nSigFigs":5}' "$API" > apps/web/public/data/btc-book.json
+          curl -fsS --retry 3 --retry-delay 2 -H "$HDR" -d "{\"type\":\"fundingHistory\",\"coin\":\"BTC\",\"startTime\":$START_FUNDING,\"endTime\":$NOW_MS}" "$API" > apps/web/public/data/btc-funding.json
+          printf '{"capturedAt":%s,"source":"Hyperliquid Info API","defaultMarket":"BTC","interval":"1h"}\n' "$NOW_MS" > apps/web/public/data/snapshot-meta.json
+          test -s apps/web/public/data/hyperliquid-meta.json
+          test -s apps/web/public/data/btc-candles-1h.json
+          test -s apps/web/public/data/btc-book.json
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
