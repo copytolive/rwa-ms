@@ -62,3 +62,7 @@ Never commit:
 - local caches, build output, databases, backups
 
 See `docs/SOURCE_OF_TRUTH.md` and `scripts/audit-local-source.sh`.
+
+## Agent ownership
+
+RWA.MS uses exactly **10 active agents**: NAYARA, ELARA, KIRANA, MAHIRA, TALITHA, SAMIRA, ZAFIRA, KEISHA, ALINA, and SORAYA. Historical A11–A43 identifiers are module/task IDs only, not agent identities. See `docs/AGENT_MODEL.md`.
