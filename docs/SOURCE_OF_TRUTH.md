@@ -8,6 +8,7 @@ The build reconciles these sources instead of inventing requirements:
 - Product blueprint: `RWA.MS.docx`
 - Economic/model workbook: `rwa.ms.xlsx`
 - Master execution board: 1,500 synchronized jobs, immutable IDs `RWA-0001..RWA-1500`
+- Agent ownership model: exactly 10 named agents as defined in `docs/AGENT_MODEL.md`; historical A11–A43 identifiers are module/task IDs only, not agents.
 
 ## Product thesis
 
